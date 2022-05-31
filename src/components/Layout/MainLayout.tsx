@@ -35,7 +35,9 @@ const SideNavigation = () => {
           key={item.name}
           to={item.to}
           style={(navData) =>
-            navData.isActive ? { background: '#0B3964' } : {}
+            navData.isActive
+              ? { background: 'var(--chakra-colors-primary-700)' }
+              : {}
           }
           css={css({ borderRadius: '5px' })}
         >
@@ -49,7 +51,7 @@ const SideNavigation = () => {
             fontWeight="bold"
             fontSize="xl"
             role="group"
-            _hover={{ bg: '#2C689F', color: 'white' }}
+            _hover={{ bg: 'primary.300', color: 'white' }}
           >
             <Center
               as="span"
@@ -76,12 +78,12 @@ const Logo = () => <img src={logo} alt="noto" />;
 
 const Sidebar = () => (
   <Flex direction="column" w={64}>
-    <Box h={16} paddingY="14px" paddingLeft={16} bg="#061F35">
+    <Box h={16} paddingY="14px" paddingLeft={16} bg="primary.900">
       <Link to="/" css={css({ display: 'inline-block' })}>
         <Logo />
       </Link>
     </Box>
-    <Flex px={4} py={5} direction="column" grow={1} bg="#1E5282">
+    <Flex px={4} py={5} direction="column" grow={1} bg="primary.500">
       <ActionButton
         icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
       >
@@ -100,12 +102,12 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => (
   <Flex
-    bg="#ECECEC"
+    bg="base.500"
     overflow="hidden"
     css={css({ height: ['100vh', '100dvh'] })}
   >
     <Sidebar />
-    <Flex direction="column" grow={1}>
+    <Flex direction="column" grow={1} overflow="auto">
       <Flex
         as="header"
         alignItems="center"
