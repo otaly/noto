@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { Link, RouteObject, useRoutes } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import { MainLayout } from './components/Layout';
+import { NoteCardProps } from './features/notes/components/NoteCard';
+import { NoteCards } from './features/notes/components/NoteCards';
 import { AppProvider } from './providers/app';
 
 const Test = () => <p>This is Top</p>;
@@ -23,12 +25,22 @@ const AppRoutes = () => {
   return routeElement;
 };
 
+const notes: NoteCardProps[] = Array(8)
+  .fill(null)
+  .map((_, i) => ({
+    title: '今日の料理の計画について',
+    text: 'あ'.repeat(120 + i),
+    favoriteCnt: 12 + i,
+    isFavorite: i % 2 === 0,
+  }));
+
 const App = () => (
   <AppProvider>
     <MainLayout>
       <AppRoutes />
-      <Link to="hoge">Hoge</Link>
-      <Link to="/">Top</Link>
+      <NoteCards notes={notes} />
+      {/* <Link to="hoge">Hoge</Link>
+      <Link to="/">Top</Link> */}
     </MainLayout>
   </AppProvider>
 );
