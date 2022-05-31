@@ -1,26 +1,33 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Link, RouteObject, useRoutes } from 'react-router-dom';
+import { AppProvider } from './providers/app';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Test = () => <p>This is Top</p>;
+const Test2 = () => <p>Here is Hoge</p>;
+
+const AppRoutes = () => {
+  const routes: RouteObject[] = [
+    {
+      path: '/',
+      element: <Test />,
+    },
+    {
+      path: '/hoge',
+      element: <Test2 />,
+    },
+  ];
+
+  const routeElement = useRoutes(routes);
+  return routeElement;
+};
+
+const App = () => (
+  <AppProvider>
+    <AppRoutes />
+    <Link to="hoge">Hoge</Link>
+    <Link to="/">Top</Link>
+  </AppProvider>
+);
 
 export default App;
