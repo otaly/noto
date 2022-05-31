@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { Link, RouteObject, useRoutes } from 'react-router-dom';
+import { MainLayout } from './components/Layout';
 import { AppProvider } from './providers/app';
 
 const Test = () => <p>This is Top</p>;
@@ -24,9 +25,11 @@ const AppRoutes = () => {
 
 const App = () => (
   <AppProvider>
-    <AppRoutes />
-    <Link to="hoge">Hoge</Link>
-    <Link to="/">Top</Link>
+    <MainLayout>
+      <AppRoutes />
+      <Link to="hoge">Hoge</Link>
+      <Link to="/">Top</Link>
+    </MainLayout>
   </AppProvider>
 );
 
