@@ -30,7 +30,7 @@ const notes: NoteCardProps[] = Array(8)
   .map((_, i) => ({
     title: '今日の料理の計画について',
     text: 'あ'.repeat(120 + i),
-    favoriteCnt: 12 + i,
+    favoriteCount: 12 + i,
     isFavorite: i % 2 === 0,
   }));
 

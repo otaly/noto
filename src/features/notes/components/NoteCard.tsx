@@ -1,21 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import {
   Box,
-  Center,
   Flex,
   Heading,
   LinkBox,
   LinkOverlay,
   Text,
 } from '@chakra-ui/react';
-import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FavoriteButton } from '../../../components/Elements/FavoriteButton';
 
 export type NoteCardProps = {
   title?: string;
   text?: string;
-  favoriteCnt?: number;
+  favoriteCount?: number;
   isFavorite?: boolean;
   isMyNote?: boolean;
 };
@@ -23,7 +22,7 @@ export type NoteCardProps = {
 export const NoteCard = ({
   title = '',
   text = '',
-  favoriteCnt = 0,
+  favoriteCount = 0,
   isFavorite = false,
   isMyNote = false,
 }: NoteCardProps) => (
@@ -50,14 +49,7 @@ export const NoteCard = ({
         <Text color="blackAlpha.700">{text}</Text>
       </Box>
       <Box h="1.375rem">
-        <Center
-          as="button"
-          type="button"
-          color={isFavorite ? 'favorite.500' : 'blackAlpha.500'}
-        >
-          {isFavorite ? <Favorite /> : <FavoriteBorderOutlined />}
-          <Box ml={0.5}>{favoriteCnt}</Box>
-        </Center>
+        <FavoriteButton isFavorite={isFavorite} favoriteCount={favoriteCount} />
       </Box>
     </Flex>
   </LinkBox>
