@@ -3,7 +3,7 @@ import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { ContentLayout } from '../../../components/Layout';
 import { NoteCards, NoteCardsProps } from '../components/NoteCards';
-import { NoteCardLayout } from '../components/NoteCardsLayout';
+import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 const notes: NoteCardsProps['notes'] = Array(8)
   .fill(null)
@@ -17,7 +17,7 @@ const notes: NoteCardsProps['notes'] = Array(8)
 
 export const Home = () => (
   <ContentLayout>
-    <NoteCardLayout>
+    <NoteCardsLayout>
       <Box py={4}>
         <Heading mb={5} fontSize="2xl" color="blackAlpha.600">
           <Box as="span" fontSize="1.75rem">
@@ -27,6 +27,6 @@ export const Home = () => (
         </Heading>
         <NoteCards notes={notes} />
       </Box>
-    </NoteCardLayout>
+    </NoteCardsLayout>
   </ContentLayout>
 );
