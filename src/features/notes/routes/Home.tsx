@@ -2,14 +2,15 @@
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { ContentLayout } from '../../../components/Layout';
-import { NoteCards, NoteCardsProps } from '../components/NoteCards';
+import { NoteCardProps } from '../components/NoteCard';
+import { NoteCards } from '../components/NoteCards';
 import { NoteCardsGrid } from '../components/NoteCardsGrid';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
-const notes: NoteCardsProps['notes'] = Array(8)
+const notes: NoteCardProps[] = Array(8)
   .fill(null)
   .map((_, i) => ({
-    id: i.toString(),
+    id: i,
     title: '今日の料理の計画について',
     text: 'あ'.repeat(120 + i),
     favoriteCount: 12 + i,

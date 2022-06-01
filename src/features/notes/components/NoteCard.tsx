@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { FavoriteButton } from '../../../components/Elements/FavoriteButton';
 
 export type NoteCardProps = {
+  id: number;
   title?: string;
   text?: string;
   favoriteCount?: number;
@@ -20,6 +21,7 @@ export type NoteCardProps = {
 };
 
 export const NoteCard = ({
+  id,
   title = '',
   text = '',
   favoriteCount = 0,
@@ -41,7 +43,7 @@ export const NoteCard = ({
   >
     <Flex direction="column">
       <Heading mb={5} size="md" color="black">
-        <LinkOverlay as={Link} to="/">
+        <LinkOverlay as={Link} to={`/notes/${id}`}>
           {title}
         </LinkOverlay>
       </Heading>
