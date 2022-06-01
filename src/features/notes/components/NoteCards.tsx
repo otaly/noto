@@ -3,7 +3,7 @@ import { Grid } from '@chakra-ui/react';
 import React from 'react';
 import { NoteCard, NoteCardProps } from './NoteCard';
 
-export type NoteCardsProps = { notes?: NoteCardProps[] };
+export type NoteCardsProps = { notes?: (NoteCardProps & { id: string })[] };
 
 export const NoteCards = ({ notes = [] }: NoteCardsProps) => (
   <Grid
@@ -13,7 +13,7 @@ export const NoteCards = ({ notes = [] }: NoteCardsProps) => (
     columnGap={6}
   >
     {notes.map((noteProps) => (
-      <NoteCard {...noteProps} />
+      <NoteCard key={noteProps.id} {...noteProps} />
     ))}
   </Grid>
 );
