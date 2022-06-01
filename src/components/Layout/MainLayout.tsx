@@ -10,8 +10,7 @@ import {
 import { SvgIconProps } from '@mui/material';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-// eslint-disable-next-line import/no-unresolved
-import logo from 'src/assets/logo.svg';
+import logo from '../../assets/logo.svg';
 import { ActionButton } from '../Elements/ActionButton';
 
 type SideNavigationItem = {
