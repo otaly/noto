@@ -2,6 +2,7 @@
 import React from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { MainLayout } from './components/Layout';
+import { Editor } from './features/notes/routes/Editor';
 import { Favorites } from './features/notes/routes/Favorites';
 import { Home } from './features/notes/routes/Home';
 import { MyNotes } from './features/notes/routes/MyNotes';
@@ -25,6 +26,10 @@ const AppRoutes = () => {
     {
       path: '/note/:id',
       element: <Note />,
+    },
+    {
+      path: '/note/:id/edit',
+      element: <Editor />,
     },
   ];
 

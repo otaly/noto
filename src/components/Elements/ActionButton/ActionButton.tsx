@@ -3,13 +3,14 @@ import { Box, Center, forwardRef } from '@chakra-ui/react';
 import clsx from 'clsx';
 import React from 'react';
 
-export type ActionButtonProps =
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    icon?: React.ReactElement;
-  };
+export type ActionButtonProps = React.ButtonHTMLAttributes<
+  HTMLDivElement & HTMLButtonElement
+> & {
+  icon?: React.ReactElement;
+};
 
 export const ActionButton = forwardRef<ActionButtonProps, 'button'>(
-  ({ type = 'button', className = '', icon, ...props }, ref) => (
+  ({ type = 'button', className = '', onClick, icon, ...props }, ref) => (
     <Center
       as="button"
       ref={ref}
@@ -23,6 +24,7 @@ export const ActionButton = forwardRef<ActionButtonProps, 'button'>(
       pos="relative"
       rounded="full"
       _hover={{ bg: 'accent.600', color: 'whiteAlpha.900' }}
+      onClick={onClick}
     >
       <Center pos="absolute" left="14px">
         {icon}

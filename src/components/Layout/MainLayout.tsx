@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { SvgIconProps } from '@mui/material';
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { ActionButton } from '../Elements/ActionButton';
 
@@ -75,25 +75,29 @@ const SideNavigation = () => {
 
 const Logo = () => <img src={logo} alt="noto" />;
 
-const Sidebar = () => (
-  <Flex direction="column" w={64}>
-    <Box h={16} paddingY="14px" paddingLeft={16} bg="primary.900">
-      <Link to="/" css={css({ display: 'inline-block' })}>
-        <Logo />
-      </Link>
-    </Box>
-    <Flex px={4} py={5} direction="column" grow={1} bg="primary.500">
-      <ActionButton
-        icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
-      >
-        新規作成
-      </ActionButton>
-      <Flex direction="column" gap={4} marginTop={6}>
-        <SideNavigation />
+const Sidebar = () => {
+  const navigate = useNavigate();
+  return (
+    <Flex direction="column" w={64} shrink={0}>
+      <Box h={16} paddingY="14px" paddingLeft={16} bg="primary.900">
+        <Link to="/" css={css({ display: 'inline-block' })}>
+          <Logo />
+        </Link>
+      </Box>
+      <Flex px={4} py={5} direction="column" grow={1} bg="primary.500">
+        <ActionButton
+          icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
+          onClick={() => navigate('/note/0/edit')}
+        >
+          新規作成
+        </ActionButton>
+        <Flex direction="column" gap={4} marginTop={6}>
+          <SideNavigation />
+        </Flex>
       </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
 
 type MainLayoutProps = {
   children: React.ReactNode;
