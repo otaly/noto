@@ -117,7 +117,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => (
         bg="white"
         shadow="xs"
       >
-        <Avatar w={12} h={12} />
+        <Avatar name="Hiroshi Sato" w={12} h={12} />
       </Flex>
       <Flex as="main" direction="column">
         {children}
