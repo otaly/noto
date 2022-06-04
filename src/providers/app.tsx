@@ -15,6 +15,7 @@ const theme = extendTheme({
   },
   lineHeights: {
     base: 1.4,
+    taller: 1.8,
   },
   colors: {
     base: {
