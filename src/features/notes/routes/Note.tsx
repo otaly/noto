@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Box, Container, Heading } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 import { FavoriteButton } from '../../../components/Elements/FavoriteButton';
 import { ContentLayout } from '../../../components/Layout';
@@ -20,9 +20,9 @@ const noteContent =
 export const Note = () => (
   <ContentLayout>
     <Container as="article" px="min(15%, 12.25rem)" py={8} maxW="container.xl">
-      <Heading fontSize="2rem" mb={4} color="black">
+      <Box as="h1" textStyle="h1" mb={4} color="black">
         今日の料理の計画について
-      </Heading>
+      </Box>
       <Box mb={7}>
         <Author name="Hiroshi Sato" lastEditDate={new Date()} />
       </Box>

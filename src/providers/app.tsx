@@ -17,6 +17,13 @@ const theme = extendTheme({
     base: 1.4,
     taller: 1.8,
   },
+  textStyles: {
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      lineHeight: 'short',
+    },
+  },
   colors: {
     base: {
       500: '#ececec',

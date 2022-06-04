@@ -22,7 +22,12 @@ export const Home = () => (
     <NoteCardsLayout>
       <Box py={4}>
         <NoteCardsGrid>
-          <Heading mb={5} fontSize="2xl" color="blackAlpha.600">
+          <Heading
+            mb={5}
+            fontSize="2xl"
+            lineHeight="short"
+            color="blackAlpha.600"
+          >
             <Box as="span" fontSize="1.75rem">
               #
             </Box>
