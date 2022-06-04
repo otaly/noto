@@ -43,7 +43,7 @@ export const NoteCard = ({
   >
     <Flex direction="column">
       <Heading mb={5} size="md" color="black">
-        <LinkOverlay as={Link} to={`/notes/${id}`}>
+        <LinkOverlay as={Link} to={`/note/${id}`}>
           {title}
         </LinkOverlay>
       </Heading>

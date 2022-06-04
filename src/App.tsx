@@ -5,6 +5,7 @@ import { MainLayout } from './components/Layout';
 import { Favorites } from './features/notes/routes/Favorites';
 import { Home } from './features/notes/routes/Home';
 import { MyNotes } from './features/notes/routes/MyNotes';
+import { Note } from './features/notes/routes/Note';
 import { AppProvider } from './providers/app';
 
 const AppRoutes = () => {
@@ -20,6 +21,10 @@ const AppRoutes = () => {
     {
       path: '/favorites',
       element: <Favorites />,
+    },
+    {
+      path: '/note/:id',
+      element: <Note />,
     },
   ];
 
