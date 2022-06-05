@@ -99,6 +99,23 @@ const Sidebar = () => {
   );
 };
 
+export type HeaderType = 'normal' | 'editor';
+
+const Header = () => (
+  <Flex
+    as="header"
+    alignItems="center"
+    justifyContent="end"
+    h={16}
+    px={6}
+    py={2}
+    bg="white"
+    shadow="xs"
+  >
+    <Avatar name="Hiroshi Sato" w={12} h={12} />
+  </Flex>
+);
+
 type MainLayoutProps = {
   children: React.ReactNode;
 };
@@ -111,18 +128,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => (
   >
     <Sidebar />
     <Flex direction="column" grow={1} overflow="auto">
-      <Flex
-        as="header"
-        alignItems="center"
-        justifyContent="end"
-        h={16}
-        px={6}
-        py={2}
-        bg="white"
-        shadow="xs"
-      >
-        <Avatar name="Hiroshi Sato" w={12} h={12} />
-      </Flex>
+      <Header />
       <Flex as="main" direction="column">
         {children}
       </Flex>
