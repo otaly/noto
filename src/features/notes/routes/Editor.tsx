@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { Box, Container, Textarea } from '@chakra-ui/react';
 import autosize from 'autosize';
-import React from 'react';
-import { ContentLayout } from '../../../components/Layout';
+import React, { useContext, useEffect } from 'react';
+import { ContentLayout, HeaderContext } from '../../../components/Layout';
 import { MDView } from '../components/MDView';
 
 const noteContent =
@@ -18,11 +18,27 @@ const noteContent =
 
 export const Editor = () => {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  React.useEffect(() => {
+  const { setHeaderState } = useContext(HeaderContext);
+  useEffect(() => {
     if (textareaRef.current) {
       autosize(textareaRef.current);
     }
-  });
+    if (setHeaderState) {
+      setHeaderState({
+        type: 'editor',
+        onClickUpdate: () => console.log('保存！'),
+        onChangeIsPreview: (isPreview) => console.log(isPreview),
+      });
+    }
+    return () =>
+      setHeaderState &&
+      setHeaderState((state) => ({
+        ...state,
+        type: 'normal',
+        onClickUpdate: undefined,
+        onChangeIsPreview: undefined,
+      }));
+  }, [setHeaderState]);
   return (
     <ContentLayout>
       <Container
