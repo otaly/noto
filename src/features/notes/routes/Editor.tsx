@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Box, Container, Textarea } from '@chakra-ui/react';
+import autosize from 'autosize';
 import React from 'react';
 import { ContentLayout } from '../../../components/Layout';
 import { MDView } from '../components/MDView';
@@ -15,31 +16,41 @@ const noteContent =
     2
   );
 
-export const Editor = () => (
-  <ContentLayout>
-    <Container as="article" px="min(15%, 12.25rem)" py={8} maxW="container.xl">
-      {/* TODO: 折り返しに対応 */}
-      <Textarea
-        resize="none"
-        placeholder="Title"
-        spellCheck={false}
-        focusBorderColor="transparent"
-        maxLength={70}
-        rows={1}
-        p={0}
-        mb={10}
-        color="black"
-        fontSize="2rem"
-        fontWeight="bold"
-        border="none"
-        _placeholder={{ color: 'gray.300' }}
-      />
-      {/* <Heading fontSize="2rem" mb={10} color="black">
-        今日の料理の計画について
-      </Heading> */}
-      <Box as="section" mb={6}>
-        <MDView markdown={noteContent} />
-      </Box>
-    </Container>
-  </ContentLayout>
-);
+export const Editor = () => {
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  React.useEffect(() => {
+    if (textareaRef.current) {
+      autosize(textareaRef.current);
+    }
+  });
+  return (
+    <ContentLayout>
+      <Container
+        as="article"
+        px="min(15%, 12.25rem)"
+        py={8}
+        maxW="container.xl"
+      >
+        <Textarea
+          ref={textareaRef}
+          resize="none"
+          placeholder="Title"
+          spellCheck={false}
+          focusBorderColor="transparent"
+          maxLength={70}
+          rows={1}
+          p={0}
+          mb={10}
+          color="black"
+          fontSize="2rem"
+          fontWeight="bold"
+          border="none"
+          _placeholder={{ color: 'gray.300' }}
+        />
+        <Box as="section" mb={6}>
+          <MDView markdown={noteContent} />
+        </Box>
+      </Container>
+    </ContentLayout>
+  );
+};
