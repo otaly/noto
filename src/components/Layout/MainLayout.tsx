@@ -18,10 +18,7 @@ import React, {
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { ActionButton } from '../Elements/ActionButton';
-import {
-  PreviewSwitch,
-  PreviewSwitchProps,
-} from '../Elements/PreviewSwitch/PreviewSwitch';
+import { PreviewSwitch, PreviewSwitchProps } from '../Elements/PreviewSwitch';
 
 type SideNavigationItem = {
   name: string;
