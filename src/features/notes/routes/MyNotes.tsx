@@ -14,6 +14,7 @@ const notes: NoteCardProps[] = Array(8)
     text: 'あ'.repeat(120 + i),
     favoriteCount: 12 + i,
     isFavorite: i % 2 === 0,
+    isMyNote: true,
   }));
 
 export const MyNotes = () => (
