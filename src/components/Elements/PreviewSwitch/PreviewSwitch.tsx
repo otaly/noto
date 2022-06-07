@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { Center, chakra, Switch } from '@chakra-ui/react';
+import { Center, chakra, Switch, useBoolean } from '@chakra-ui/react';
 import {
   ModeEdit as ModeEditRaw,
   PlayArrow as PlayArrowRaw,
 } from '@mui/icons-material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 export type PreviewSwitchProps = {
   defaultChecked?: boolean;
@@ -18,15 +18,15 @@ export const PreviewSwitch = ({
   defaultChecked,
   onChangeIsPreview,
 }: PreviewSwitchProps) => {
-  const [isPreview, setIsPreview] = useState(defaultChecked ?? false);
+  const [isPreview, setIsPreview] = useBoolean(defaultChecked);
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (onChangeIsPreview) {
         onChangeIsPreview(event.target.checked);
       }
-      setIsPreview(event.target.checked);
+      setIsPreview.toggle();
     },
-    [onChangeIsPreview]
+    [onChangeIsPreview, setIsPreview]
   );
   return (
     <Center as="label" htmlFor="previewSwitch">
