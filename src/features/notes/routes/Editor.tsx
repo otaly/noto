@@ -1,8 +1,8 @@
-import { Box, Container, Textarea } from '@chakra-ui/react';
-import autosize from 'autosize';
-import React, { useContext, useEffect } from 'react';
-import { ContentLayout, HeaderContext } from '../../../components/Layout';
-import { MDView } from '../components/MDView';
+import { Box, Container } from '@chakra-ui/react';
+import React, { useCallback, useState } from 'react';
+import { ContentLayout } from '../../../components/Layout';
+import { MDEditor } from '../components/MDEditor';
+import { TitleTextarea } from '../components/TitleTextarea';
 
 const noteContent =
   `私もほか何だかそんな逡巡家というのの上ができですない。とにかく以前を教育通りは何しろこの創作ですあるばかりをついてみますがは発展すまますだろで、突然には行っませですたます。新聞に知れた方はもっとも今日をとうていましなない。よほど岡田さんを勉強主義そう承諾に装うたく自分こうした道私か干渉をって肝矛盾ですたなでと、その今はここか気権力に行きから、岡田さんののにテンの私に依然としてご関係となっば私人とご講義にありあわせようにもちろん大支配に申しなくですが、初めて常に意見にいうたておくたのが伴っうで。だからつまり今中学よりいう点は始終不都合とあろたて、その社会がも断ったからという私立を行き届いからいただきですませ。
@@ -16,28 +16,23 @@ const noteContent =
   );
 
 export const Editor = () => {
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const { setHeaderState } = useContext(HeaderContext);
-  useEffect(() => {
-    if (textareaRef.current) {
-      autosize(textareaRef.current);
-    }
-    if (setHeaderState) {
-      setHeaderState({
-        type: 'editor',
-        onClickUpdate: () => console.log('保存！'),
-        onChangeIsPreview: (isPreview) => console.log(isPreview),
-      });
-    }
-    return () =>
-      setHeaderState &&
-      setHeaderState((state) => ({
-        ...state,
-        type: 'normal',
-        onClickUpdate: undefined,
-        onChangeIsPreview: undefined,
-      }));
-  }, [setHeaderState]);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const handleTitleChange = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) =>
+      setTitle(event.target.value),
+    []
+  );
+  const handleContentChange = useCallback(
+    (value: string) => setContent(value),
+    []
+  );
+
+  const handleClickUpdate = useCallback(
+    () => alert(JSON.stringify({ title, content })),
+    [title, content]
+  );
+
   return (
     <ContentLayout>
       <Container
@@ -46,24 +41,9 @@ export const Editor = () => {
         py={8}
         maxW="container.xl"
       >
-        <Textarea
-          ref={textareaRef}
-          resize="none"
-          placeholder="Title"
-          spellCheck={false}
-          focusBorderColor="transparent"
-          maxLength={70}
-          rows={1}
-          p={0}
-          mb={10}
-          color="black"
-          fontSize="2rem"
-          fontWeight="bold"
-          border="none"
-          _placeholder={{ color: 'gray.300' }}
-        />
+        <TitleTextarea value={title} onChange={handleTitleChange} />
         <Box as="section" mb={6}>
-          <MDView markdown={noteContent} />
+          <MDEditor value={content} onChange={handleContentChange} />
         </Box>
       </Container>
     </ContentLayout>
