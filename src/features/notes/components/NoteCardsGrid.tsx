@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Grid } from '@chakra-ui/react';
 import React from 'react';
 

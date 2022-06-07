@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { ContentLayout } from '../../../components/Layout';

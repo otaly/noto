@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 import { FavoriteButton } from '../../../components/Elements/FavoriteButton';

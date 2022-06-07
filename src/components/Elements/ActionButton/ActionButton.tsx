@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Center, forwardRef } from '@chakra-ui/react';
 import clsx from 'clsx';
 import React from 'react';

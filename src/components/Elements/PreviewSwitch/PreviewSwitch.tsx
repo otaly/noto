@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Center, chakra, Switch, useBoolean } from '@chakra-ui/react';
 import {
   ModeEdit as ModeEditRaw,

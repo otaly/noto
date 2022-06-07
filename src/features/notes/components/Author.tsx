@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Avatar, Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 import { formatDate } from '../../../utils/format';

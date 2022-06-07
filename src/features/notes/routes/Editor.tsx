@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Box, Container, Textarea } from '@chakra-ui/react';
 import autosize from 'autosize';
 import React, { useContext, useEffect } from 'react';

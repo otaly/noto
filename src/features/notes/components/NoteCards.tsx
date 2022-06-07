@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React from 'react';
 import { NoteCard, NoteCardProps } from './NoteCard';
 import { NoteCardsGrid } from './NoteCardsGrid';

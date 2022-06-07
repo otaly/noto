@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { CheckIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
