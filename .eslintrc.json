@@ -44,7 +44,8 @@
       "ignorePackages",
       { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
     ],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "settings": {
     "react": {
