@@ -1,0 +1,9 @@
+.EasyMDEContainer .CodeMirror {
+  border: none;
+  padding: 0;
+}
+
+.EasyMDEContainer .CodeMirror-placeholder {
+  opacity: 1;
+  color: var(--chakra-colors-gray-400) !important;
+}
