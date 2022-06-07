@@ -1,5 +1,4 @@
-import { CheckIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Button, Center, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import {
   Add,
@@ -8,16 +7,10 @@ import {
   LibraryBooksOutlined,
 } from '@mui/icons-material';
 import { SvgIconProps } from '@mui/material';
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useState,
-} from 'react';
+import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { ActionButton } from '../Elements/ActionButton';
-import { PreviewSwitch, PreviewSwitchProps } from '../Elements/PreviewSwitch';
 
 type SideNavigationItem = {
   name: string;
@@ -105,99 +98,19 @@ const Sidebar = () => {
   );
 };
 
-export type HeaderType = 'normal' | 'editor';
-
-type HeaderProps = {
-  type: HeaderType;
-  isLoading?: boolean;
-  onClickUpdate?: () => void | Promise<void>;
-  onChangeIsPreview?: PreviewSwitchProps['onChangeIsPreview'];
-};
-
-const Header = ({
-  type,
-  isLoading,
-  onClickUpdate,
-  onChangeIsPreview,
-}: HeaderProps) => {
-  let content: React.ReactNode;
-  let headerStyles = {};
-  switch (type) {
-    case 'editor':
-      content = (
-        <>
-          <Button
-            leftIcon={<CheckIcon />}
-            iconSpacing={2}
-            isLoading={isLoading}
-            colorScheme="blue"
-            px={5}
-            onClick={onClickUpdate}
-          >
-            保存
-          </Button>
-          <PreviewSwitch onChangeIsPreview={onChangeIsPreview} />
-        </>
-      );
-      headerStyles = {
-        py: 3,
-        justify: 'space-between',
-        shadow: 'base',
-        position: 'sticky',
-        top: 0,
-      };
-      break;
-    case 'normal':
-    default:
-      content = <Avatar name="Hiroshi Sato" w={12} h={12} />;
-      headerStyles = { py: 2, justify: 'end', shadow: 'xs' };
-      break;
-  }
-  return (
-    <Flex
-      as="header"
-      align="center"
-      h={16}
-      px={6}
-      bg="white"
-      zIndex={100}
-      {...headerStyles}
-    >
-      {content}
-    </Flex>
-  );
-};
-
 type MainLayoutProps = {
   children: React.ReactNode;
 };
 
-export const HeaderContext = createContext<{
-  setHeaderState?: Dispatch<SetStateAction<HeaderProps>>;
-}>({
-  setHeaderState: undefined,
-});
-
-export const MainLayout = ({ children }: MainLayoutProps) => {
-  const [headerState, setHeaderState] = useState<HeaderProps>({
-    type: 'normal',
-  });
-  return (
-    <Flex
-      bg="base.500"
-      overflow="hidden"
-      css={css({ height: ['100vh', '100dvh'] })}
-    >
-      <Sidebar />
-      <Flex direction="column" grow={1} position="relative" overflow="auto">
-        <Header {...headerState} />
-        <Flex as="main" direction="column">
-          {/* eslint-disable-next-line react/jsx-no-constructed-context-values */}
-          <HeaderContext.Provider value={{ setHeaderState }}>
-            {children}
-          </HeaderContext.Provider>
-        </Flex>
-      </Flex>
+export const MainLayout = ({ children }: MainLayoutProps) => (
+  <Flex
+    bg="base.500"
+    overflow="hidden"
+    css={css({ height: ['100vh', '100dvh'] })}
+  >
+    <Sidebar />
+    <Flex direction="column" grow={1} position="relative" overflow="auto">
+      {children}
     </Flex>
-  );
-};
+  </Flex>
+);

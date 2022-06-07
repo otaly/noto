@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
-import { ContentLayout } from '../../../components/Layout';
+import { ContentLayout, Header } from '../../../components/Layout';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
@@ -17,7 +17,7 @@ const notes: NoteCardProps[] = Array(8)
   }));
 
 export const MyNotes = () => (
-  <ContentLayout>
+  <ContentLayout header={<Header />}>
     <NoteCardsLayout>
       <Box py={4}>
         <NoteCards notes={notes} />

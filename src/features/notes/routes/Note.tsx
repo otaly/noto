@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import React from 'react';
 import { FavoriteButton } from '../../../components/Elements/FavoriteButton';
-import { ContentLayout } from '../../../components/Layout';
+import { ContentLayout, Header } from '../../../components/Layout';
 import { Author } from '../components/Author';
 import { MDView } from '../components/MDView';
 
@@ -17,7 +17,7 @@ const noteContent =
   );
 
 export const Note = () => (
-  <ContentLayout>
+  <ContentLayout header={<Header />}>
     <Container as="article" px="min(15%, 12.25rem)" py={8} maxW="container.xl">
       <Box as="h1" textStyle="h1" mb={4} color="black">
         今日の料理の計画について
