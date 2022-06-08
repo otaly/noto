@@ -18,6 +18,7 @@ export const TitleTextarea = ({ value = '', onChange }: TitleTextareaProps) => {
   return (
     <Textarea
       ref={textareaRef}
+      autoFocus
       resize="none"
       placeholder="Title"
       spellCheck={false}
@@ -30,7 +31,7 @@ export const TitleTextarea = ({ value = '', onChange }: TitleTextareaProps) => {
       fontSize="2rem"
       fontWeight="bold"
       border="none"
-      _placeholder={{ color: 'gray.300' }}
+      _placeholder={{ color: 'gray.400' }}
       onChange={onChange}
     />
   );
