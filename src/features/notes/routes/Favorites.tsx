@@ -1,6 +1,6 @@
+import { ContentLayout, Header } from '@/components/Layout';
 import { Box } from '@chakra-ui/react';
 import React from 'react';
-import { ContentLayout, Header } from '../../../components/Layout';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';

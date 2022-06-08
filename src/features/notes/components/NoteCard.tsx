@@ -1,3 +1,4 @@
+import { FavoriteButton } from '@/components/Elements/FavoriteButton';
 import {
   Box,
   chakra,
@@ -11,7 +12,6 @@ import {
 import { MoreVert as MoreVertRaw } from '@mui/icons-material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FavoriteButton } from '../../../components/Elements/FavoriteButton';
 
 const MoreVert = chakra(MoreVertRaw);
 

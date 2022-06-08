@@ -1,6 +1,6 @@
+import { ContentLayout, Header } from '@/components/Layout';
 import { Box, Container } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
-import { ContentLayout, Header } from '../../../components/Layout';
 import { MDEditor } from '../components/MDEditor';
 import { TitleTextarea } from '../components/TitleTextarea';
 

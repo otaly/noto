@@ -1,3 +1,4 @@
+import logo from '@/assets/logo.svg';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import {
@@ -9,7 +10,6 @@ import {
 import { SvgIconProps } from '@mui/material';
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
 import { ActionButton } from '../Elements/ActionButton';
 
 type SideNavigationItem = {

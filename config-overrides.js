@@ -1,15 +1,20 @@
 // 参考：https://github.com/facebook/create-react-app/issues/12072#issuecomment-1074566504
 
 const webpack = require('webpack');
+const path = require('path');
 const {
   override,
   addWebpackResolve,
   addWebpackPlugin,
+  addWebpackAlias,
   addBabelPresets,
   addBabelPlugins,
 } = require('customize-cra');
 
 module.exports = override(
+  addWebpackAlias({
+    ['@']: path.resolve(__dirname, 'src'),
+  }),
   addWebpackResolve({
     fallback: {
       crypto: require.resolve('crypto-browserify'),
