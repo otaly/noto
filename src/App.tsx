@@ -1,48 +1,26 @@
-/** @jsxImportSource @emotion/react */
 // eslint-disable-next-line import/no-unresolved
 import '@aws-amplify/ui-react/styles.css';
-import React from 'react';
-import { RouteObject, useRoutes } from 'react-router-dom';
+import { Box, Center, Spinner } from '@chakra-ui/react';
+import React, { Suspense } from 'react';
 import { MainLayout } from './components/Layout';
-import { Editor } from './features/notes/routes/Editor';
-import { Favorites } from './features/notes/routes/Favorites';
-import { Home } from './features/notes/routes/Home';
-import { MyNotes } from './features/notes/routes/MyNotes';
-import { Note } from './features/notes/routes/Note';
 import { AppProvider } from './providers/app';
-
-const AppRoutes = () => {
-  const routes: RouteObject[] = [
-    {
-      path: '/',
-      element: <Home />,
-    },
-    {
-      path: '/mynotes',
-      element: <MyNotes />,
-    },
-    {
-      path: '/favorites',
-      element: <Favorites />,
-    },
-    {
-      path: '/note/:id',
-      element: <Note />,
-    },
-    {
-      path: '/note/:id/edit',
-      element: <Editor />,
-    },
-  ];
-
-  const routeElement = useRoutes(routes);
-  return routeElement;
-};
+import { AppRoutes } from './routes';
 
 const App = () => (
   <AppProvider>
     <MainLayout>
-      <AppRoutes />
+      <Suspense
+        fallback={
+          <>
+            <Box h={16} flexShrink={0} bg="white" shadow="xs" />
+            <Center h="full" w="full">
+              <Spinner size="xl" />
+            </Center>
+          </>
+        }
+      >
+        <AppRoutes />
+      </Suspense>
     </MainLayout>
   </AppProvider>
 );
