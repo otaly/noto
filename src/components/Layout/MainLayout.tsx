@@ -1,4 +1,6 @@
 import logo from '@/assets/logo.svg';
+import { AuthStatus } from '@/constants';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import {
@@ -75,6 +77,7 @@ const SideNavigation = () => {
 const Logo = () => <img src={logo} alt="noto" />;
 
 const Sidebar = () => {
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const navigate = useNavigate();
   return (
     <Flex direction="column" w={64} shrink={0}>
@@ -84,13 +87,16 @@ const Sidebar = () => {
         </Link>
       </Box>
       <Flex px={4} py={5} direction="column" grow={1} bg="primary.500">
-        <ActionButton
-          icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
-          onClick={() => navigate('/note/0/edit')}
-        >
-          新規作成
-        </ActionButton>
-        <Flex direction="column" gap={4} marginTop={6}>
+        {authStatus === AuthStatus.AUTHENTICATED && (
+          <ActionButton
+            icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
+            marginBottom={6}
+            onClick={() => navigate('/note/0/edit')}
+          >
+            新規作成
+          </ActionButton>
+        )}
+        <Flex direction="column" gap={4}>
           <SideNavigation />
         </Flex>
       </Flex>

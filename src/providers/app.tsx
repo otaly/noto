@@ -1,3 +1,4 @@
+import { Authenticator } from '@aws-amplify/ui-react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -46,6 +47,8 @@ const theme = extendTheme({
 
 export const AppProvider = ({ children }: AppProviderProps) => (
   <ChakraProvider theme={theme}>
-    <BrowserRouter>{children}</BrowserRouter>
+    <Authenticator.Provider>
+      <BrowserRouter>{children}</BrowserRouter>
+    </Authenticator.Provider>
   </ChakraProvider>
 );

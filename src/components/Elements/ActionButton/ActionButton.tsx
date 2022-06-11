@@ -1,4 +1,4 @@
-import { Box, Center, forwardRef } from '@chakra-ui/react';
+import { Box, Center, chakra, forwardRef } from '@chakra-ui/react';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -8,7 +8,7 @@ export type ActionButtonProps = React.ButtonHTMLAttributes<
   icon?: React.ReactElement;
 };
 
-export const ActionButton = forwardRef<ActionButtonProps, 'button'>(
+const ActionButtonRaw = forwardRef<ActionButtonProps, 'button'>(
   ({ type = 'button', className = '', onClick, icon, ...props }, ref) => (
     <Center
       as="button"
@@ -32,3 +32,5 @@ export const ActionButton = forwardRef<ActionButtonProps, 'button'>(
     </Center>
   )
 );
+
+export const ActionButton = chakra(ActionButtonRaw);

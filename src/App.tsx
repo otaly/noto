@@ -1,4 +1,6 @@
 /** @jsxImportSource @emotion/react */
+// eslint-disable-next-line import/no-unresolved
+import '@aws-amplify/ui-react/styles.css';
 import React from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { MainLayout } from './components/Layout';
