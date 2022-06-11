@@ -1,6 +1,5 @@
 import { Box, Center, Circle } from '@chakra-ui/react';
 import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
-import React from 'react';
 
 export type FavoriteButtonProps = {
   isFavorite?: boolean;

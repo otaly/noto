@@ -10,7 +10,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { MoreVert as MoreVertRaw } from '@mui/icons-material';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const MoreVert = chakra(MoreVertRaw);

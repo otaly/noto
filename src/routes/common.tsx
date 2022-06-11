@@ -1,4 +1,3 @@
-import React from 'react';
 import { lazyImport } from '@/utils/lazyImport';
 
 const { Home } = lazyImport(() => import('@/features/notes'), 'Home');

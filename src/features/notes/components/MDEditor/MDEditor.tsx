@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import 'easymde/dist/easymde.min.css';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { SimpleMdeReact, SimpleMDEReactProps } from 'react-simplemde-editor';
 import './MDEditor.css';
 

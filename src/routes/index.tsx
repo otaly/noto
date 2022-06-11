@@ -1,5 +1,4 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import React from 'react';
 import { useRoutes } from 'react-router-dom';
 import { commonRoutes } from './common';
 import { protectedRoutes } from './protected';

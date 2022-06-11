@@ -1,7 +1,6 @@
 import { FavoriteButton } from '@/components/Elements/FavoriteButton';
 import { ContentLayout, Header } from '@/components/Layout';
 import { Box, Container } from '@chakra-ui/react';
-import React from 'react';
 import { Author } from '../components/Author';
 import { MDView } from '../components/MDView';
 
