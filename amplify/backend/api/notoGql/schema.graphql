@@ -1,0 +1,20 @@
+type Note
+  @model(subscriptions: { level: public })
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "authorId", provider: userPools }
+      { allow: private, provider: userPools, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  content: String!
+  authorId: String!
+  type: String!
+    @index(
+      name: "notesByDate"
+      queryField: "notesByDate"
+      sortKeyFields: ["updatedAt"]
+    )
+  updatedAt: String!
+}
