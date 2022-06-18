@@ -1,3 +1,4 @@
+// 上書きするキーの参考→ https://github.com/aws-amplify/amplify-ui/blob/main/packages/ui/src/i18n/dictionaries/authenticator/ja.ts
 import { translations } from '@aws-amplify/ui-react';
 
 export const jaDict = {
