@@ -34,8 +34,9 @@ export const Header = ({
   onClickUpdate,
   onChangeIsPreview,
 }: HeaderProps) => {
-  const { authStatus, signOut } = useAuthenticator((context) => [
+  const { authStatus, user, signOut } = useAuthenticator((context) => [
     context.authStatus,
+    context.user,
   ]);
   const navigate = useNavigate();
   const toast = useToast();
@@ -103,7 +104,7 @@ export const Header = ({
         content = (
           <Menu>
             <MenuButton>
-              <Avatar name="Hiroshi Sato" w={12} h={12} />
+              <Avatar name={user?.username} w={12} h={12} />
             </MenuButton>
             <MenuList>
               <MenuItem onClick={handleClickLogOut}>ログアウト</MenuItem>
