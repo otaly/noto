@@ -4,17 +4,55 @@ type Note
     rules: [
       { allow: owner, ownerField: "authorId", provider: userPools }
       { allow: private, provider: userPools, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
   title: String!
   content: String!
-  authorId: String!
+  authorId: ID!
+    @index(
+      name: "notesByAuthorAndDate"
+      queryField: "notesByAuthorAndDate"
+      sortKeyFields: ["updatedAt"]
+    )
+  favoriteCount: Int
+    @default(value: "0")
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "authorId", provider: userPools }
+        { allow: private, provider: userPools, operations: [read] }
+        { allow: private, provider: iam }
+        { allow: public, provider: iam, operations: [read] }
+      ]
+    )
   type: String!
     @index(
       name: "notesByDate"
       queryField: "notesByDate"
       sortKeyFields: ["updatedAt"]
     )
-  updatedAt: String!
+  updatedAt: AWSDateTime!
+}
+
+type Favorite
+  @model(
+    mutations: { update: null }
+    timestamps: { createdAt: "createdAt", updatedAt: null }
+  )
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "userId"
+        provider: userPools
+        operations: [read]
+      }
+      { allow: private, provider: iam, operations: [read, create, delete] }
+    ]
+  ) {
+  userId: ID! @primaryKey(sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime!
+  noteId: ID!
+  note: Note @hasOne(fields: ["noteId"])
 }

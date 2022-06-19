@@ -9,6 +9,7 @@ export const getNote = /* GraphQL */ `
       title
       content
       authorId
+      favoriteCount
       type
       updatedAt
       createdAt
@@ -27,6 +28,38 @@ export const listNotes = /* GraphQL */ `
         title
         content
         authorId
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+      nextToken
+    }
+  }
+`;
+export const notesByAuthorAndDate = /* GraphQL */ `
+  query NotesByAuthorAndDate(
+    $authorId: ID!
+    $updatedAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelNoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    notesByAuthorAndDate(
+      authorId: $authorId
+      updatedAt: $updatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        content
+        authorId
+        favoriteCount
         type
         updatedAt
         createdAt
@@ -57,9 +90,65 @@ export const notesByDate = /* GraphQL */ `
         title
         content
         authorId
+        favoriteCount
         type
         updatedAt
         createdAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFavorite = /* GraphQL */ `
+  query GetFavorite($userId: ID!, $createdAt: AWSDateTime!) {
+    getFavorite(userId: $userId, createdAt: $createdAt) {
+      userId
+      createdAt
+      noteId
+      note {
+        id
+        title
+        content
+        authorId
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+export const listFavorites = /* GraphQL */ `
+  query ListFavorites(
+    $userId: ID
+    $createdAt: ModelStringKeyConditionInput
+    $filter: ModelFavoriteFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listFavorites(
+      userId: $userId
+      createdAt: $createdAt
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        userId
+        createdAt
+        noteId
+        note {
+          id
+          title
+          content
+          authorId
+          favoriteCount
+          type
+          updatedAt
+          createdAt
+        }
       }
       nextToken
     }

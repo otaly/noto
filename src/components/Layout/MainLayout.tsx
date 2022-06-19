@@ -1,5 +1,8 @@
+import { CreateNoteInput, CreateNoteMutation } from '@/API';
 import logo from '@/assets/logo.svg';
 import { AuthStatus } from '@/constants';
+import { createNote } from '@/graphql/mutations';
+import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
@@ -10,7 +13,8 @@ import {
   LibraryBooksOutlined,
 } from '@mui/icons-material';
 import { SvgIconProps } from '@mui/material';
-import React from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import React, { useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ActionButton } from '../Elements/ActionButton';
 
@@ -77,8 +81,32 @@ const SideNavigation = () => {
 const Logo = () => <img src={logo} alt="noto" />;
 
 const Sidebar = () => {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  const { authStatus, user } = useAuthenticator((context) => [
+    context.authStatus,
+    context.user,
+  ]);
   const navigate = useNavigate();
+
+  const handleCreateNote = useCallback(async () => {
+    if (!user?.username) {
+      return;
+    }
+    const newNote: CreateNoteInput = {
+      type: 'note',
+      title: '',
+      content: '',
+      authorId: user.username,
+    };
+    const noteData = (await API.graphql(
+      graphqlOperation(createNote, { input: newNote })
+    )) as GraphQLResult<CreateNoteMutation>;
+    const note = noteData.data?.createNote;
+    if (!note) {
+      return;
+    }
+    navigate(`/note/${note.id}/edit`);
+  }, [navigate, user?.username]);
+
   return (
     <Flex direction="column" w={64} shrink={0}>
       <Box h={16} paddingY="14px" paddingLeft={16} bg="primary.900">
@@ -91,7 +119,7 @@ const Sidebar = () => {
           <ActionButton
             icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
             marginBottom={6}
-            onClick={() => navigate('/note/0/edit')}
+            onClick={handleCreateNote}
           >
             新規作成
           </ActionButton>

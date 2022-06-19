@@ -17,7 +17,7 @@ const MoreVert = chakra(MoreVertRaw);
 export type NoteCardProps = {
   id: number;
   title?: string;
-  text?: string;
+  content?: string;
   favoriteCount?: number;
   isFavorite?: boolean;
   isMyNote?: boolean;
@@ -26,7 +26,7 @@ export type NoteCardProps = {
 export const NoteCard = ({
   id,
   title = '',
-  text = '',
+  content = '',
   favoriteCount = 0,
   isFavorite = false,
   isMyNote = false,
@@ -45,11 +45,11 @@ export const NoteCard = ({
     role="group"
     _hover={{ shadow: 'lg' }}
   >
-    <Flex direction="column">
+    <Flex direction="column" w="full">
       <Flex align="start" justify="space-between">
-        <Heading mb={5} size="md" color="black">
+        <Heading size="md" mb={5} w="full" color="black">
           <LinkOverlay as={Link} to={`/note/${id}`}>
-            {title}
+            {title || '無題'}
           </LinkOverlay>
         </Heading>
         {isMyNote && (
@@ -70,7 +70,7 @@ export const NoteCard = ({
         )}
       </Flex>
       <Box mb={3} flexGrow={1} overflow="hidden">
-        <Text color="blackAlpha.700">{text}</Text>
+        <Text color="blackAlpha.700">{content}</Text>
       </Box>
       <Box h="1.375rem">
         <FavoriteButton isFavorite={isFavorite} favoriteCount={favoriteCount} />

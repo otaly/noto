@@ -2,19 +2,15 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateNoteInput = {
-  id?: string | null,
-  title: string,
-  content: string,
-  authorId: string,
-  type: string,
-  updatedAt?: string | null,
+export type DeleteNoteInput = {
+  id: string,
 };
 
 export type ModelNoteConditionInput = {
   title?: ModelStringInput | null,
   content?: ModelStringInput | null,
-  authorId?: ModelStringInput | null,
+  authorId?: ModelIDInput | null,
+  favoriteCount?: ModelIntInput | null,
   type?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelNoteConditionInput | null > | null,
@@ -62,42 +58,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Note = {
-  __typename: "Note",
-  id: string,
-  title: string,
-  content: string,
-  authorId: string,
-  type: string,
-  updatedAt: string,
-  createdAt: string,
-};
-
-export type UpdateNoteInput = {
-  id: string,
-  title?: string | null,
-  content?: string | null,
-  authorId?: string | null,
-  type?: string | null,
-  updatedAt?: string | null,
-};
-
-export type DeleteNoteInput = {
-  id: string,
-};
-
-export type ModelNoteFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  content?: ModelStringInput | null,
-  authorId?: ModelStringInput | null,
-  type?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelNoteFilterInput | null > | null,
-  or?: Array< ModelNoteFilterInput | null > | null,
-  not?: ModelNoteFilterInput | null,
-};
-
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -112,6 +72,63 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Note = {
+  __typename: "Note",
+  id: string,
+  title: string,
+  content: string,
+  authorId: string,
+  favoriteCount?: number | null,
+  type: string,
+  updatedAt: string,
+  createdAt: string,
+};
+
+export type CreateNoteInput = {
+  id?: string | null,
+  title: string,
+  content: string,
+  authorId: string,
+  favoriteCount?: number | null,
+  type: string,
+  updatedAt?: string | null,
+};
+
+export type UpdateNoteInput = {
+  id: string,
+  title?: string | null,
+  content?: string | null,
+  authorId?: string | null,
+  favoriteCount?: number | null,
+  type?: string | null,
+  updatedAt?: string | null,
+};
+
+export type ModelNoteFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  authorId?: ModelIDInput | null,
+  favoriteCount?: ModelIntInput | null,
+  type?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelNoteFilterInput | null > | null,
+  or?: Array< ModelNoteFilterInput | null > | null,
+  not?: ModelNoteFilterInput | null,
 };
 
 export type ModelNoteConnection = {
@@ -136,6 +153,48 @@ export enum ModelSortDirection {
 }
 
 
+export type Favorite = {
+  __typename: "Favorite",
+  userId: string,
+  createdAt: string,
+  noteId: string,
+  note?: Note | null,
+};
+
+export type ModelFavoriteFilterInput = {
+  userId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  noteId?: ModelIDInput | null,
+  and?: Array< ModelFavoriteFilterInput | null > | null,
+  or?: Array< ModelFavoriteFilterInput | null > | null,
+  not?: ModelFavoriteFilterInput | null,
+};
+
+export type ModelFavoriteConnection = {
+  __typename: "ModelFavoriteConnection",
+  items:  Array<Favorite | null >,
+  nextToken?: string | null,
+};
+
+export type DeleteNoteMutationVariables = {
+  input: DeleteNoteInput,
+  condition?: ModelNoteConditionInput | null,
+};
+
+export type DeleteNoteMutation = {
+  deleteNote?:  {
+    __typename: "Note",
+    id: string,
+    title: string,
+    content: string,
+    authorId: string,
+    favoriteCount?: number | null,
+    type: string,
+    updatedAt: string,
+    createdAt: string,
+  } | null,
+};
+
 export type CreateNoteMutationVariables = {
   input: CreateNoteInput,
   condition?: ModelNoteConditionInput | null,
@@ -148,6 +207,7 @@ export type CreateNoteMutation = {
     title: string,
     content: string,
     authorId: string,
+    favoriteCount?: number | null,
     type: string,
     updatedAt: string,
     createdAt: string,
@@ -166,24 +226,7 @@ export type UpdateNoteMutation = {
     title: string,
     content: string,
     authorId: string,
-    type: string,
-    updatedAt: string,
-    createdAt: string,
-  } | null,
-};
-
-export type DeleteNoteMutationVariables = {
-  input: DeleteNoteInput,
-  condition?: ModelNoteConditionInput | null,
-};
-
-export type DeleteNoteMutation = {
-  deleteNote?:  {
-    __typename: "Note",
-    id: string,
-    title: string,
-    content: string,
-    authorId: string,
+    favoriteCount?: number | null,
     type: string,
     updatedAt: string,
     createdAt: string,
@@ -201,6 +244,7 @@ export type GetNoteQuery = {
     title: string,
     content: string,
     authorId: string,
+    favoriteCount?: number | null,
     type: string,
     updatedAt: string,
     createdAt: string,
@@ -222,6 +266,34 @@ export type ListNotesQuery = {
       title: string,
       content: string,
       authorId: string,
+      favoriteCount?: number | null,
+      type: string,
+      updatedAt: string,
+      createdAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type NotesByAuthorAndDateQueryVariables = {
+  authorId: string,
+  updatedAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelNoteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type NotesByAuthorAndDateQuery = {
+  notesByAuthorAndDate?:  {
+    __typename: "ModelNoteConnection",
+    items:  Array< {
+      __typename: "Note",
+      id: string,
+      title: string,
+      content: string,
+      authorId: string,
+      favoriteCount?: number | null,
       type: string,
       updatedAt: string,
       createdAt: string,
@@ -248,9 +320,68 @@ export type NotesByDateQuery = {
       title: string,
       content: string,
       authorId: string,
+      favoriteCount?: number | null,
       type: string,
       updatedAt: string,
       createdAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFavoriteQueryVariables = {
+  userId: string,
+  createdAt: string,
+};
+
+export type GetFavoriteQuery = {
+  getFavorite?:  {
+    __typename: "Favorite",
+    userId: string,
+    createdAt: string,
+    noteId: string,
+    note?:  {
+      __typename: "Note",
+      id: string,
+      title: string,
+      content: string,
+      authorId: string,
+      favoriteCount?: number | null,
+      type: string,
+      updatedAt: string,
+      createdAt: string,
+    } | null,
+  } | null,
+};
+
+export type ListFavoritesQueryVariables = {
+  userId?: string | null,
+  createdAt?: ModelStringKeyConditionInput | null,
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListFavoritesQuery = {
+  listFavorites?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      userId: string,
+      createdAt: string,
+      noteId: string,
+      note?:  {
+        __typename: "Note",
+        id: string,
+        title: string,
+        content: string,
+        authorId: string,
+        favoriteCount?: number | null,
+        type: string,
+        updatedAt: string,
+        createdAt: string,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,

@@ -18,6 +18,7 @@ export const TitleTextarea = ({ value = '', onChange }: TitleTextareaProps) => {
   return (
     <Textarea
       ref={textareaRef}
+      value={value}
       autoFocus
       resize="none"
       placeholder="Title"

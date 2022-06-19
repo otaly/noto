@@ -2,6 +2,23 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const deleteNote = /* GraphQL */ `
+  mutation DeleteNote(
+    $input: DeleteNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    deleteNote(input: $input, condition: $condition) {
+      id
+      title
+      content
+      authorId
+      favoriteCount
+      type
+      updatedAt
+      createdAt
+    }
+  }
+`;
 export const createNote = /* GraphQL */ `
   mutation CreateNote(
     $input: CreateNoteInput!
@@ -12,6 +29,7 @@ export const createNote = /* GraphQL */ `
       title
       content
       authorId
+      favoriteCount
       type
       updatedAt
       createdAt
@@ -28,22 +46,7 @@ export const updateNote = /* GraphQL */ `
       title
       content
       authorId
-      type
-      updatedAt
-      createdAt
-    }
-  }
-`;
-export const deleteNote = /* GraphQL */ `
-  mutation DeleteNote(
-    $input: DeleteNoteInput!
-    $condition: ModelNoteConditionInput
-  ) {
-    deleteNote(input: $input, condition: $condition) {
-      id
-      title
-      content
-      authorId
+      favoriteCount
       type
       updatedAt
       createdAt
