@@ -2,20 +2,16 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type DeleteNoteInput = {
-  id: string,
+export type CreateUserInput = {
+  id?: string | null,
+  name: string,
 };
 
-export type ModelNoteConditionInput = {
-  title?: ModelStringInput | null,
-  content?: ModelStringInput | null,
-  authorId?: ModelIDInput | null,
-  favoriteCount?: ModelIntInput | null,
-  type?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelNoteConditionInput | null > | null,
-  or?: Array< ModelNoteConditionInput | null > | null,
-  not?: ModelNoteConditionInput | null,
+export type ModelUserConditionInput = {
+  name?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -58,6 +54,45 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type User = {
+  __typename: "User",
+  id: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  name?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
+export type CreateNoteInput = {
+  id?: string | null,
+  title: string,
+  content: string,
+  authorId: string,
+  favoriteCount?: number | null,
+  type: string,
+  updatedAt?: string | null,
+};
+
+export type ModelNoteConditionInput = {
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  authorId?: ModelIDInput | null,
+  favoriteCount?: ModelIntInput | null,
+  type?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelNoteConditionInput | null > | null,
+  or?: Array< ModelNoteConditionInput | null > | null,
+  not?: ModelNoteConditionInput | null,
+};
+
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -98,16 +133,6 @@ export type Note = {
   createdAt: string,
 };
 
-export type CreateNoteInput = {
-  id?: string | null,
-  title: string,
-  content: string,
-  authorId: string,
-  favoriteCount?: number | null,
-  type: string,
-  updatedAt?: string | null,
-};
-
 export type UpdateNoteInput = {
   id: string,
   title?: string | null,
@@ -116,6 +141,24 @@ export type UpdateNoteInput = {
   favoriteCount?: number | null,
   type?: string | null,
   updatedAt?: string | null,
+};
+
+export type DeleteNoteInput = {
+  id: string,
+};
+
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
 };
 
 export type ModelNoteFilterInput = {
@@ -176,22 +219,48 @@ export type ModelFavoriteConnection = {
   nextToken?: string | null,
 };
 
-export type DeleteNoteMutationVariables = {
-  input: DeleteNoteInput,
-  condition?: ModelNoteConditionInput | null,
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type DeleteNoteMutation = {
-  deleteNote?:  {
-    __typename: "Note",
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
     id: string,
-    title: string,
-    content: string,
-    authorId: string,
-    favoriteCount?: number | null,
-    type: string,
-    updatedAt: string,
+    name: string,
     createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -230,6 +299,59 @@ export type UpdateNoteMutation = {
     type: string,
     updatedAt: string,
     createdAt: string,
+  } | null,
+};
+
+export type DeleteNoteMutationVariables = {
+  input: DeleteNoteInput,
+  condition?: ModelNoteConditionInput | null,
+};
+
+export type DeleteNoteMutation = {
+  deleteNote?:  {
+    __typename: "Note",
+    id: string,
+    title: string,
+    content: string,
+    authorId: string,
+    favoriteCount?: number | null,
+    type: string,
+    updatedAt: string,
+    createdAt: string,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -384,5 +506,47 @@ export type ListFavoritesQuery = {
       } | null,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  id?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  id?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  id?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };

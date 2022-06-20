@@ -1,3 +1,20 @@
+type User
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "id"
+        provider: userPools
+        operations: [read, update]
+      }
+      { allow: private, provider: iam, operations: [read, create, delete] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+}
+
 type Note
   @model(subscriptions: { level: public })
   @auth(
