@@ -7,7 +7,7 @@ import { NoteCardsLayout } from '../components/NoteCardsLayout';
 const notes: NoteCardProps[] = Array(8)
   .fill(null)
   .map((_, i) => ({
-    id: i,
+    id: i.toString(),
     title: '今日の料理の計画について',
     content: 'あ'.repeat(120 + i),
     favoriteCount: 12 + i,
