@@ -1,4 +1,5 @@
 import { FavoriteButton } from '@/components/Elements/FavoriteButton';
+import { ALT_TITLE } from '@/constants';
 import {
   Box,
   chakra,
@@ -49,7 +50,7 @@ export const NoteCard = ({
       <Flex align="start" justify="space-between">
         <Heading size="md" mb={5} w="full" color="black">
           <LinkOverlay as={Link} to={`/note/${id}`}>
-            {title || '無題'}
+            {title || ALT_TITLE}
           </LinkOverlay>
         </Heading>
         {isMyNote && (

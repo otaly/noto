@@ -27,12 +27,13 @@ type Note
   id: ID!
   title: String!
   content: String!
-  authorId: ID!
+  authorId: ID
     @index(
       name: "notesByAuthorAndDate"
       queryField: "notesByAuthorAndDate"
       sortKeyFields: ["updatedAt"]
     )
+  author: User @hasOne(fields: ["authorId"])
   favoriteCount: Int
     @default(value: "0")
     @auth(

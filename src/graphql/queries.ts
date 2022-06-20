@@ -36,6 +36,12 @@ export const getNote = /* GraphQL */ `
       title
       content
       authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       favoriteCount
       type
       updatedAt
@@ -55,6 +61,12 @@ export const listNotes = /* GraphQL */ `
         title
         content
         authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
         favoriteCount
         type
         updatedAt
@@ -86,6 +98,12 @@ export const notesByAuthorAndDate = /* GraphQL */ `
         title
         content
         authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
         favoriteCount
         type
         updatedAt
@@ -117,6 +135,12 @@ export const notesByDate = /* GraphQL */ `
         title
         content
         authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
         favoriteCount
         type
         updatedAt
@@ -137,6 +161,12 @@ export const getFavorite = /* GraphQL */ `
         title
         content
         authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
         favoriteCount
         type
         updatedAt

@@ -24,7 +24,8 @@ export const MyNotes = () => {
       const notesRaw = notesData.data?.notesByAuthorAndDate?.items;
       const formattedNotes = (notesRaw
         ?.filter(Boolean)
-        .map((n) => ({ ...n })) ?? []) as unknown as NoteCardProps[];
+        .map((n) => ({ ...n, isMyNote: true })) ??
+        []) as unknown as NoteCardProps[];
       setNotes(formattedNotes);
     };
     fetchNotes();

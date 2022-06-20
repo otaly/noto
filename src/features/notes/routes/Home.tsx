@@ -13,7 +13,10 @@ import { NoteCardsGrid } from '../components/NoteCardsGrid';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 export const Home = () => {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  const { authStatus, user } = useAuthenticator((context) => [
+    context.authStatus,
+    context.user,
+  ]);
   const [notes, setNotes] = useState<NoteCardProps[]>([]);
   useEffect(() => {
     // 一旦雑に
@@ -30,7 +33,8 @@ export const Home = () => {
       const notesRaw = notesData.data?.notesByDate?.items;
       const formattedNotes = (notesRaw
         ?.filter(Boolean)
-        .map((n) => ({ ...n })) ?? []) as unknown as NoteCardProps[];
+        .map((n) => ({ ...n, isMyNote: n?.authorId === user?.username })) ??
+        []) as unknown as NoteCardProps[];
       setNotes(formattedNotes);
     };
     fetchNotes();
