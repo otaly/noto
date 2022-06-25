@@ -7,4 +7,5 @@ export const jaDict = {
   'Confirm Sign In': 'ログインする',
   'Create account': '会員登録',
   'Create Account': '会員登録',
+  Name: '表示名',
 };

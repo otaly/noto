@@ -104,7 +104,7 @@ export const Header = ({
         content = (
           <Menu>
             <MenuButton>
-              <Avatar name={user?.username} w={12} h={12} />
+              <Avatar name={user?.attributes?.name} w={12} h={12} />
             </MenuButton>
             <MenuList>
               <MenuItem onClick={handleClickLogOut}>ログアウト</MenuItem>
@@ -133,7 +133,7 @@ export const Header = ({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <Authenticator />
+          <Authenticator signUpAttributes={['name']} />
         </ModalContent>
       </Modal>
     </>
