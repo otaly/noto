@@ -1,5 +1,5 @@
 type User
-  @model
+  @model(queries: { list: null })
   @auth(
     rules: [
       {
