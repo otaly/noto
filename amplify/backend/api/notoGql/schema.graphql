@@ -9,6 +9,7 @@ type User
         operations: [read, update]
       }
       { allow: private, provider: iam, operations: [read, create, delete] }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
