@@ -148,18 +148,36 @@ export type DeleteNoteInput = {
   id: string,
 };
 
-export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
+export type CreateFavoriteInput = {
+  userId: string,
+  noteId: string,
+  createdAt?: string | null,
 };
 
-export type ModelUserConnection = {
-  __typename: "ModelUserConnection",
-  items:  Array<User | null >,
-  nextToken?: string | null,
+export type ModelFavoriteConditionInput = {
+  createdAt?: ModelStringInput | null,
+  and?: Array< ModelFavoriteConditionInput | null > | null,
+  or?: Array< ModelFavoriteConditionInput | null > | null,
+  not?: ModelFavoriteConditionInput | null,
+};
+
+export type Favorite = {
+  __typename: "Favorite",
+  userId: string,
+  noteId: string,
+  createdAt: string,
+  note?: Note | null,
+};
+
+export type DeleteFavoriteInput = {
+  userId: string,
+  noteId: string,
+};
+
+export type ChangeFavorite = {
+  __typename: "ChangeFavorite",
+  noteId: string,
+  isFavorite: boolean,
 };
 
 export type ModelNoteFilterInput = {
@@ -197,18 +215,20 @@ export enum ModelSortDirection {
 }
 
 
-export type Favorite = {
-  __typename: "Favorite",
-  userId: string,
-  createdAt: string,
-  noteId: string,
-  note?: Note | null,
+export type ModelIDKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export type ModelFavoriteFilterInput = {
   userId?: ModelIDInput | null,
-  createdAt?: ModelStringInput | null,
   noteId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFavoriteFilterInput | null > | null,
   or?: Array< ModelFavoriteFilterInput | null > | null,
   not?: ModelFavoriteFilterInput | null,
@@ -343,37 +363,80 @@ export type DeleteNoteMutation = {
   } | null,
 };
 
-export type GetUserQueryVariables = {
-  id: string,
+export type CreateFavoriteMutationVariables = {
+  input: CreateFavoriteInput,
+  condition?: ModelFavoriteConditionInput | null,
 };
 
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    name: string,
+export type CreateFavoriteMutation = {
+  createFavorite?:  {
+    __typename: "Favorite",
+    userId: string,
+    noteId: string,
     createdAt: string,
-    updatedAt: string,
+    note?:  {
+      __typename: "Note",
+      id: string,
+      title: string,
+      content: string,
+      authorId?: string | null,
+      author?:  {
+        __typename: "User",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      favoriteCount?: number | null,
+      type: string,
+      updatedAt: string,
+      createdAt: string,
+    } | null,
   } | null,
 };
 
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
+export type DeleteFavoriteMutationVariables = {
+  input: DeleteFavoriteInput,
+  condition?: ModelFavoriteConditionInput | null,
 };
 
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items:  Array< {
-      __typename: "User",
+export type DeleteFavoriteMutation = {
+  deleteFavorite?:  {
+    __typename: "Favorite",
+    userId: string,
+    noteId: string,
+    createdAt: string,
+    note?:  {
+      __typename: "Note",
       id: string,
-      name: string,
-      createdAt: string,
+      title: string,
+      content: string,
+      authorId?: string | null,
+      author?:  {
+        __typename: "User",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      favoriteCount?: number | null,
+      type: string,
       updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
+      createdAt: string,
+    } | null,
+  } | null,
+};
+
+export type ChangeFavoriteMutationVariables = {
+  noteId: string,
+  isFavorite: boolean,
+};
+
+export type ChangeFavoriteMutation = {
+  changeFavorite?:  {
+    __typename: "ChangeFavorite",
+    noteId: string,
+    isFavorite: boolean,
   } | null,
 };
 
@@ -503,15 +566,15 @@ export type NotesByDateQuery = {
 
 export type GetFavoriteQueryVariables = {
   userId: string,
-  createdAt: string,
+  noteId: string,
 };
 
 export type GetFavoriteQuery = {
   getFavorite?:  {
     __typename: "Favorite",
     userId: string,
-    createdAt: string,
     noteId: string,
+    createdAt: string,
     note?:  {
       __typename: "Note",
       id: string,
@@ -535,7 +598,7 @@ export type GetFavoriteQuery = {
 
 export type ListFavoritesQueryVariables = {
   userId?: string | null,
-  createdAt?: ModelStringKeyConditionInput | null,
+  noteId?: ModelIDKeyConditionInput | null,
   filter?: ModelFavoriteFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -548,8 +611,41 @@ export type ListFavoritesQuery = {
     items:  Array< {
       __typename: "Favorite",
       userId: string,
-      createdAt: string,
       noteId: string,
+      createdAt: string,
+      note?:  {
+        __typename: "Note",
+        id: string,
+        title: string,
+        content: string,
+        authorId?: string | null,
+        favoriteCount?: number | null,
+        type: string,
+        updatedAt: string,
+        createdAt: string,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FavoritesByDateQueryVariables = {
+  userId: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FavoritesByDateQuery = {
+  favoritesByDate?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      userId: string,
+      noteId: string,
+      createdAt: string,
       note?:  {
         __typename: "Note",
         id: string,
@@ -605,5 +701,67 @@ export type OnDeleteUserSubscription = {
     name: string,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateFavoriteSubscriptionVariables = {
+  userId?: string | null,
+};
+
+export type OnCreateFavoriteSubscription = {
+  onCreateFavorite?:  {
+    __typename: "Favorite",
+    userId: string,
+    noteId: string,
+    createdAt: string,
+    note?:  {
+      __typename: "Note",
+      id: string,
+      title: string,
+      content: string,
+      authorId?: string | null,
+      author?:  {
+        __typename: "User",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      favoriteCount?: number | null,
+      type: string,
+      updatedAt: string,
+      createdAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteFavoriteSubscriptionVariables = {
+  userId?: string | null,
+};
+
+export type OnDeleteFavoriteSubscription = {
+  onDeleteFavorite?:  {
+    __typename: "Favorite",
+    userId: string,
+    noteId: string,
+    createdAt: string,
+    note?:  {
+      __typename: "Note",
+      id: string,
+      title: string,
+      content: string,
+      authorId?: string | null,
+      author?:  {
+        __typename: "User",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      favoriteCount?: number | null,
+      type: string,
+      updatedAt: string,
+      createdAt: string,
+    } | null,
   } | null,
 };

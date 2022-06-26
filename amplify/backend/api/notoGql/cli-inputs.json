@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "notoGql",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "amplify/backend/api/notoGql/schema.graphql",
+    "gqlSchemaPath": "C:\\Users\\naoki\\Documents\\Projects\\noto\\amplify\\backend\\api\\notoGql\\schema.graphql",
     "defaultAuthType": {
       "mode": "AMAZON_COGNITO_USER_POOLS",
       "cognitoUserPoolId": "authnotob173597c"

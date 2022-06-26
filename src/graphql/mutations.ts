@@ -110,3 +110,67 @@ export const deleteNote = /* GraphQL */ `
     }
   }
 `;
+export const createFavorite = /* GraphQL */ `
+  mutation CreateFavorite(
+    $input: CreateFavoriteInput!
+    $condition: ModelFavoriteConditionInput
+  ) {
+    createFavorite(input: $input, condition: $condition) {
+      userId
+      noteId
+      createdAt
+      note {
+        id
+        title
+        content
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+export const deleteFavorite = /* GraphQL */ `
+  mutation DeleteFavorite(
+    $input: DeleteFavoriteInput!
+    $condition: ModelFavoriteConditionInput
+  ) {
+    deleteFavorite(input: $input, condition: $condition) {
+      userId
+      noteId
+      createdAt
+      note {
+        id
+        title
+        content
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+export const changeFavorite = /* GraphQL */ `
+  mutation ChangeFavorite($noteId: ID!, $isFavorite: Boolean!) {
+    changeFavorite(noteId: $noteId, isFavorite: $isFavorite) {
+      noteId
+      isFavorite
+    }
+  }
+`;

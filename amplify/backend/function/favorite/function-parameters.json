@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "api": {
+      "notoGql": [
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "Note:@model(appsync)": [
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

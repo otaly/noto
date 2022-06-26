@@ -2,33 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getNote = /* GraphQL */ `
   query GetNote($id: ID!) {
     getNote(id: $id) {
@@ -151,11 +124,11 @@ export const notesByDate = /* GraphQL */ `
   }
 `;
 export const getFavorite = /* GraphQL */ `
-  query GetFavorite($userId: ID!, $createdAt: AWSDateTime!) {
-    getFavorite(userId: $userId, createdAt: $createdAt) {
+  query GetFavorite($userId: ID!, $noteId: ID!) {
+    getFavorite(userId: $userId, noteId: $noteId) {
       userId
-      createdAt
       noteId
+      createdAt
       note {
         id
         title
@@ -178,7 +151,7 @@ export const getFavorite = /* GraphQL */ `
 export const listFavorites = /* GraphQL */ `
   query ListFavorites(
     $userId: ID
-    $createdAt: ModelStringKeyConditionInput
+    $noteId: ModelIDKeyConditionInput
     $filter: ModelFavoriteFilterInput
     $limit: Int
     $nextToken: String
@@ -186,7 +159,7 @@ export const listFavorites = /* GraphQL */ `
   ) {
     listFavorites(
       userId: $userId
-      createdAt: $createdAt
+      noteId: $noteId
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -194,8 +167,44 @@ export const listFavorites = /* GraphQL */ `
     ) {
       items {
         userId
-        createdAt
         noteId
+        createdAt
+        note {
+          id
+          title
+          content
+          authorId
+          favoriteCount
+          type
+          updatedAt
+          createdAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const favoritesByDate = /* GraphQL */ `
+  query FavoritesByDate(
+    $userId: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFavoriteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    favoritesByDate(
+      userId: $userId
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        userId
+        noteId
+        createdAt
         note {
           id
           title

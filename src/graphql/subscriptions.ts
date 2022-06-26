@@ -32,3 +32,53 @@ export const onDeleteUser = /* GraphQL */ `
     }
   }
 `;
+export const onCreateFavorite = /* GraphQL */ `
+  subscription OnCreateFavorite($userId: String) {
+    onCreateFavorite(userId: $userId) {
+      userId
+      noteId
+      createdAt
+      note {
+        id
+        title
+        content
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+export const onDeleteFavorite = /* GraphQL */ `
+  subscription OnDeleteFavorite($userId: String) {
+    onDeleteFavorite(userId: $userId) {
+      userId
+      noteId
+      createdAt
+      note {
+        id
+        title
+        content
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;

@@ -48,13 +48,18 @@ export const Note = () => {
         <Box mb={5}>
           <FavoriteButton
             isBigButton
+            noteId={id}
             favoriteCount={note?.favoriteCount ?? undefined}
           />
         </Box>
         <Box as="section" mb={6}>
           <MDView markdown={note?.content} />
         </Box>
-        <FavoriteButton isBigButton />
+        <FavoriteButton
+          isBigButton
+          noteId={id}
+          favoriteCount={note?.favoriteCount ?? undefined}
+        />
       </Container>
     </ContentLayout>
   );

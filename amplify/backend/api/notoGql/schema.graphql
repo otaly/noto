@@ -56,7 +56,11 @@ type Note
 
 type Favorite
   @model(
-    mutations: { update: null }
+    mutations: {
+      create: "createFavorite"
+      delete: "deleteFavorite"
+      update: null
+    }
     timestamps: { createdAt: "createdAt", updatedAt: null }
   )
   @auth(
@@ -70,8 +74,25 @@ type Favorite
       { allow: private, provider: iam, operations: [read, create, delete] }
     ]
   ) {
-  userId: ID! @primaryKey(sortKeyFields: ["createdAt"])
-  createdAt: AWSDateTime!
+  userId: ID!
+    @primaryKey(sortKeyFields: ["noteId"])
+    @index(
+      name: "favoritesByDate"
+      queryField: "favoritesByDate"
+      sortKeyFields: ["createdAt"]
+    )
   noteId: ID!
+  createdAt: AWSDateTime!
   note: Note @hasOne(fields: ["noteId"])
+}
+
+type ChangeFavorite {
+  noteId: ID!
+  isFavorite: Boolean!
+}
+
+type Mutation {
+  changeFavorite(noteId: ID!, isFavorite: Boolean!): ChangeFavorite
+    @function(name: "favorite-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
 }

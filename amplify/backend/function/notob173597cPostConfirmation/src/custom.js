@@ -40,7 +40,7 @@ exports.handler = async (event) => {
 
   await createUser({
     id: event.userName,
-    name: event.request.userAttributes.name || 'TEST',
+    name: event.request.userAttributes.name || '匿名ユーザー',
   });
 
   return event;

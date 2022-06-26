@@ -141,7 +141,13 @@ export const NoteCard = ({
         <Text color="blackAlpha.700">{content}</Text>
       </Box>
       <Box h="1.375rem">
-        <FavoriteButton isFavorite={isFavorite} favoriteCount={favoriteCount} />
+        <Box display="inline-block" pos="relative">
+          <FavoriteButton
+            noteId={id}
+            isFavorite={isFavorite}
+            favoriteCount={favoriteCount}
+          />
+        </Box>
       </Box>
     </Flex>
   </LinkBox>
