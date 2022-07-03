@@ -25,7 +25,6 @@ export const Favorites = () => {
       const notesRaw = notesData.data?.favoritesByDate?.items;
       const formattedNotes = (notesRaw?.filter(Boolean).map((n) => ({
         ...n?.note,
-        isFavorite: true,
         isMyNote: n?.note?.authorId === user.username,
       })) ?? []) as unknown as NoteCardProps[];
       setNotes(formattedNotes);

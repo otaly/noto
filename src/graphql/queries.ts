@@ -22,33 +22,6 @@ export const getNote = /* GraphQL */ `
     }
   }
 `;
-export const listNotes = /* GraphQL */ `
-  query ListNotes(
-    $filter: ModelNoteFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        content
-        authorId
-        author {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        favoriteCount
-        type
-        updatedAt
-        createdAt
-      }
-      nextToken
-    }
-  }
-`;
 export const notesByAuthorAndDate = /* GraphQL */ `
   query NotesByAuthorAndDate(
     $authorId: ID!
@@ -120,31 +93,6 @@ export const notesByDate = /* GraphQL */ `
         createdAt
       }
       nextToken
-    }
-  }
-`;
-export const getFavorite = /* GraphQL */ `
-  query GetFavorite($userId: ID!, $noteId: ID!) {
-    getFavorite(userId: $userId, noteId: $noteId) {
-      userId
-      noteId
-      createdAt
-      note {
-        id
-        title
-        content
-        authorId
-        author {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        favoriteCount
-        type
-        updatedAt
-        createdAt
-      }
     }
   }
 `;

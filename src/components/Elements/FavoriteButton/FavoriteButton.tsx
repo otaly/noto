@@ -1,5 +1,6 @@
 import { ChangeFavoriteMutation } from '@/API';
 import { changeFavorite } from '@/graphql/mutations';
+import { useFavoriteIds } from '@/providers/favoriteIds';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Center, Circle } from '@chakra-ui/react';
 import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
@@ -8,17 +9,18 @@ import { useCallback } from 'react';
 
 export type FavoriteButtonProps = {
   noteId?: string;
-  isFavorite?: boolean;
   favoriteCount?: number;
   isBigButton?: boolean;
 };
 
 export const FavoriteButton = ({
   noteId,
-  isFavorite = false,
   favoriteCount = 0,
   isBigButton = false,
 }: FavoriteButtonProps) => {
+  const favoriteIds = useFavoriteIds();
+  const isFavorite = noteId && favoriteIds.includes(noteId);
+
   const handleClick = useCallback(async () => {
     if (noteId == null) {
       return;

@@ -2,6 +2,7 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { FavoriteIdsProvider } from './favoriteIds';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -48,7 +49,9 @@ const theme = extendTheme({
 export const AppProvider = ({ children }: AppProviderProps) => (
   <ChakraProvider theme={theme}>
     <Authenticator.Provider>
-      <BrowserRouter>{children}</BrowserRouter>
+      <FavoriteIdsProvider>
+        <BrowserRouter>{children}</BrowserRouter>
+      </FavoriteIdsProvider>
     </Authenticator.Provider>
   </ChakraProvider>
 );

@@ -17,7 +17,7 @@ type User
 }
 
 type Note
-  @model(subscriptions: { level: public })
+  @model(queries: { get: "getNote" }, subscriptions: { level: public })
   @auth(
     rules: [
       { allow: owner, ownerField: "authorId", provider: userPools }
@@ -56,6 +56,7 @@ type Note
 
 type Favorite
   @model(
+    queries: { list: "listFavorites" }
     mutations: {
       create: "createFavorite"
       delete: "deleteFavorite"

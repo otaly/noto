@@ -26,6 +26,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "import"],
   "rules": {
+    "consistent-return": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-misused-promises": [
       "error",

@@ -98,7 +98,6 @@ export type NoteCardProps = {
   title?: string;
   content?: string;
   favoriteCount?: number;
-  isFavorite?: boolean;
   isMyNote?: boolean;
 };
 
@@ -107,7 +106,6 @@ export const NoteCard = ({
   title = '',
   content = '',
   favoriteCount = 0,
-  isFavorite = false,
   isMyNote = false,
 }: NoteCardProps) => (
   <LinkBox
@@ -142,11 +140,7 @@ export const NoteCard = ({
       </Box>
       <Box h="1.375rem">
         <Box display="inline-block" pos="relative">
-          <FavoriteButton
-            noteId={id}
-            isFavorite={isFavorite}
-            favoriteCount={favoriteCount}
-          />
+          <FavoriteButton noteId={id} favoriteCount={favoriteCount} />
         </Box>
       </Box>
     </Flex>
