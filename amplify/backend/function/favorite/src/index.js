@@ -76,7 +76,10 @@ let dynamoClient;
 const resolvers = {
   Mutation: {
     changeFavorite: (event) => {
-      return event.arguments.isFavorite
+      if (!event.arguments.input) {
+        throw new Error('input is undefined.');
+      }
+      return event.arguments.input.isFavorite
         ? addFavorite(event)
         : removeFavorite(event);
     },
@@ -120,7 +123,7 @@ exports.handler = async (event, _, callback) => {
 
 // TODO: 既にお気に入り済みだった場合を考慮
 const addFavorite = async (event) => {
-  const noteId = event.arguments.noteId;
+  const noteId = event.arguments.input.noteId;
   const promises = [];
   promises.push(addFavoriteCount(noteId, 1));
 
@@ -143,7 +146,7 @@ const addFavorite = async (event) => {
 
 // TODO: 既にお気に入り削除済みだった場合を考慮
 const removeFavorite = async (event) => {
-  const noteId = event.arguments.noteId;
+  const noteId = event.arguments.input.noteId;
   const promises = [];
   promises.push(addFavoriteCount(noteId, -1));
 
@@ -164,7 +167,7 @@ const removeFavorite = async (event) => {
   return genResponse(event);
 };
 
-const genResponse = (event) => event.arguments;
+const genResponse = (event) => event.arguments.input;
 
 const addFavoriteCount = (noteId, incr) => {
   return dynamoClient

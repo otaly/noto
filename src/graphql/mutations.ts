@@ -167,8 +167,8 @@ export const deleteFavorite = /* GraphQL */ `
   }
 `;
 export const changeFavorite = /* GraphQL */ `
-  mutation ChangeFavorite($noteId: ID!, $isFavorite: Boolean!) {
-    changeFavorite(noteId: $noteId, isFavorite: $isFavorite) {
+  mutation ChangeFavorite($input: ChangeFavoriteInput!) {
+    changeFavorite(input: $input) {
       noteId
       isFavorite
     }

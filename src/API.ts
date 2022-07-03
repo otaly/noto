@@ -174,6 +174,11 @@ export type DeleteFavoriteInput = {
   noteId: string,
 };
 
+export type ChangeFavoriteInput = {
+  noteId: string,
+  isFavorite: boolean,
+};
+
 export type ChangeFavorite = {
   __typename: "ChangeFavorite",
   noteId: string,
@@ -428,8 +433,7 @@ export type DeleteFavoriteMutation = {
 };
 
 export type ChangeFavoriteMutationVariables = {
-  noteId: string,
-  isFavorite: boolean,
+  input: ChangeFavoriteInput,
 };
 
 export type ChangeFavoriteMutation = {

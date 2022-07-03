@@ -24,7 +24,9 @@ export const FavoriteButton = ({
       return;
     }
     (await API.graphql(
-      graphqlOperation(changeFavorite, { noteId, isFavorite: !isFavorite })
+      graphqlOperation(changeFavorite, {
+        input: { noteId, isFavorite: !isFavorite },
+      })
     )) as GraphQLResult<ChangeFavoriteMutation>;
   }, [isFavorite, noteId]);
 

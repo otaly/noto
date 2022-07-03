@@ -92,7 +92,12 @@ type ChangeFavorite {
 }
 
 type Mutation {
-  changeFavorite(noteId: ID!, isFavorite: Boolean!): ChangeFavorite
+  changeFavorite(input: ChangeFavoriteInput!): ChangeFavorite
     @function(name: "favorite-${env}")
     @auth(rules: [{ allow: private, provider: userPools }])
+}
+
+input ChangeFavoriteInput {
+  noteId: ID!
+  isFavorite: Boolean!
 }
