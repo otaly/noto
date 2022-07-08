@@ -2,6 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const previewMD = /* GraphQL */ `
+  mutation PreviewMD($markdown: String!) {
+    previewMD(markdown: $markdown)
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!

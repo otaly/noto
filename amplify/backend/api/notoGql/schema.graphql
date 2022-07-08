@@ -96,6 +96,7 @@ type Mutation {
   changeFavorite(input: ChangeFavoriteInput!): ChangeFavorite
     @function(name: "favorite-${env}")
     @auth(rules: [{ allow: private, provider: userPools }])
+  previewMD(markdown: String!): String! @function(name: "convertMD-${env}")
 }
 
 input ChangeFavoriteInput {

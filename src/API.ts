@@ -281,6 +281,14 @@ export type OnDeleteFavoriteIdSubscription = {
   } | null,
 };
 
+export type PreviewMDMutationVariables = {
+  markdown: string,
+};
+
+export type PreviewMDMutation = {
+  previewMD: string,
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
