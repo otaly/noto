@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "api": {
+      "notoGql": [
+        "Mutation"
+      ]
+    },
+    "function": {
+      "convertMD": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
