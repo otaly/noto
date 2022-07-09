@@ -20,24 +20,8 @@ const createFavorite = gql`
   ) {
     createFavorite(input: $input, condition: $condition) {
       userId
-      createdAt
       noteId
-      note {
-        id
-        title
-        content
-        authorId
-        author {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        favoriteCount
-        type
-        updatedAt
-        createdAt
-      }
+      createdAt
     }
   }
 `;
@@ -48,24 +32,8 @@ const deleteFavorite = gql`
   ) {
     deleteFavorite(input: $input, condition: $condition) {
       userId
-      createdAt
       noteId
-      note {
-        id
-        title
-        content
-        authorId
-        author {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        favoriteCount
-        type
-        updatedAt
-        createdAt
-      }
+      createdAt
     }
   }
 `;
@@ -90,7 +58,6 @@ const resolvers = {
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, _, callback) => {
-  const env = process.env;
   const graphql_auth = {
     type: 'AWS_IAM',
     credentials: () => aws.config.credentials,
@@ -170,6 +137,7 @@ const removeFavorite = async (event) => {
 const genResponse = (event) => event.arguments.input;
 
 const addFavoriteCount = (noteId, incr) => {
+  // 同時更新されても問題無いようアトミックカウンタを使う
   return dynamoClient
     .update({
       TableName: env.API_NOTOGQL_NOTETABLE_NAME,
