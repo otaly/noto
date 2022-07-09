@@ -1,7 +1,7 @@
-import { CreateNoteInput, CreateNoteMutation } from '@/API';
+import { CreateNoteForClientInput, CreateNoteForClientMutation } from '@/API';
 import logo from '@/assets/logo.svg';
 import { AuthStatus } from '@/constants';
-import { createNote } from '@/graphql/mutations';
+import { createNoteForClient } from '@/graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Center, Flex } from '@chakra-ui/react';
@@ -91,16 +91,14 @@ const Sidebar = () => {
     if (!user?.username) {
       return;
     }
-    const newNote: CreateNoteInput = {
-      type: 'note',
+    const newNote: CreateNoteForClientInput = {
       title: '',
-      content: '',
-      authorId: user.username,
+      markdown: '',
     };
     const noteData = (await API.graphql(
-      graphqlOperation(createNote, { input: newNote })
-    )) as GraphQLResult<CreateNoteMutation>;
-    const note = noteData.data?.createNote;
+      graphqlOperation(createNoteForClient, { input: newNote })
+    )) as GraphQLResult<CreateNoteForClientMutation>;
+    const note = noteData.data?.createNoteForClient;
     if (!note) {
       return;
     }

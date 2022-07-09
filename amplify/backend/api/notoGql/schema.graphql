@@ -27,7 +27,8 @@ type Note
   ) {
   id: ID!
   title: String!
-  content: String!
+  markdown: String!
+  html: String!
   authorId: ID
     @index(
       name: "notesByAuthorAndDate"
@@ -39,7 +40,12 @@ type Note
     @default(value: "0")
     @auth(
       rules: [
-        { allow: owner, ownerField: "authorId", provider: userPools }
+        {
+          allow: owner
+          ownerField: "authorId"
+          provider: userPools
+          operations: [read, delete]
+        }
         { allow: private, provider: userPools, operations: [read] }
         { allow: private, provider: iam }
         { allow: public, provider: iam, operations: [read] }
@@ -96,7 +102,24 @@ type Mutation {
   changeFavorite(input: ChangeFavoriteInput!): ChangeFavorite
     @function(name: "favorite-${env}")
     @auth(rules: [{ allow: private, provider: userPools }])
+  createNoteForClient(input: CreateNoteForClientInput!): Note
+    @function(name: "note-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
+  updateNoteForClient(input: UpdateNoteForClientInput!): Note
+    @function(name: "note-${env}")
+    @auth(rules: [{ allow: private, provider: userPools }])
   previewMD(markdown: String!): String! @function(name: "convertMD-${env}")
+}
+
+input CreateNoteForClientInput {
+  title: String!
+  markdown: String!
+}
+
+input UpdateNoteForClientInput {
+  id: ID!
+  title: String!
+  markdown: String!
 }
 
 input ChangeFavoriteInput {

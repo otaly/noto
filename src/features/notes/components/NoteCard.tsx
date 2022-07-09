@@ -96,7 +96,7 @@ const NoteCardMenu = ({ title, id }: NoteCardMenuProps) => {
 export type NoteCardProps = {
   id: string;
   title?: string;
-  content?: string;
+  markdown?: string;
   favoriteCount?: number;
   isMyNote?: boolean;
 };
@@ -104,7 +104,7 @@ export type NoteCardProps = {
 export const NoteCard = ({
   id,
   title = '',
-  content = '',
+  markdown = '',
   favoriteCount = 0,
   isMyNote = false,
 }: NoteCardProps) => (
@@ -136,7 +136,14 @@ export const NoteCard = ({
         )}
       </Flex>
       <Box mb={3} flexGrow={1} overflow="hidden">
-        <Text color="blackAlpha.700">{content}</Text>
+        <Text
+          h="full"
+          color="blackAlpha.700"
+          overflow="hidden"
+          whiteSpace="pre-wrap"
+        >
+          {markdown}
+        </Text>
       </Box>
       <Box h="1.375rem">
         <Box display="inline-block" pos="relative">

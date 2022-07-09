@@ -9,7 +9,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Author } from '../components/Author';
-import { MDView } from '../components/MDView';
+import { HtmlView } from '../components/HtmlView';
 
 export const Note = () => {
   const { id } = useParams();
@@ -53,7 +53,7 @@ export const Note = () => {
           />
         </Box>
         <Box as="section" mb={6}>
-          <MDView markdown={note?.content} />
+          <HtmlView html={note?.html} />
         </Box>
         <FavoriteButton
           isBigButton

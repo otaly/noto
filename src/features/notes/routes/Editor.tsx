@@ -1,11 +1,11 @@
 import {
   GetNoteQuery,
   PreviewMDMutation,
-  UpdateNoteInput,
-  UpdateNoteMutation,
+  UpdateNoteForClientInput,
+  UpdateNoteForClientMutation,
 } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
-import { previewMD, updateNote } from '@/graphql/mutations';
+import { previewMD, updateNoteForClient } from '@/graphql/mutations';
 import { getNote } from '@/graphql/queries';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
@@ -19,7 +19,7 @@ import { TitleTextarea } from '../components/TitleTextarea';
 export const Editor = () => {
   const { id } = useParams();
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [markdown, setMarkdown] = useState('');
   const [previewHtml, setPreviewHtml] = useState('');
   const [isLoading, setIsLoading] = useBoolean();
   const [isPreviewMode, setIsPreviewMode] = useBoolean(false);
@@ -34,7 +34,7 @@ export const Editor = () => {
       )) as GraphQLResult<GetNoteQuery>;
       const note = noteData.data?.getNote;
       setTitle(note?.title ?? '');
-      setContent(note?.content ?? '');
+      setMarkdown(note?.markdown ?? '');
     };
     fetchNote();
   }, [id]);
@@ -44,8 +44,8 @@ export const Editor = () => {
       setTitle(event.target.value),
     []
   );
-  const handleContentChange = useCallback(
-    (value: string) => setContent(value),
+  const handleMarkdownChange = useCallback(
+    (value: string) => setMarkdown(value),
     []
   );
 
@@ -53,25 +53,25 @@ export const Editor = () => {
     async (isPreview: boolean) => {
       if (isPreview) {
         const previewResult = (await API.graphql(
-          graphqlOperation(previewMD, { markdown: content })
+          graphqlOperation(previewMD, { markdown })
         )) as GraphQLResult<PreviewMDMutation>;
         setPreviewHtml(previewResult.data?.previewMD ?? '');
       }
       setIsPreviewMode.toggle();
     },
-    [content, setIsPreviewMode]
+    [markdown, setIsPreviewMode]
   );
   const handleClickUpdate = useCallback(async () => {
     if (id == null) {
       return;
     }
     setIsLoading.on();
-    const update: UpdateNoteInput = { id, title, content };
+    const update: UpdateNoteForClientInput = { id, title, markdown };
     (await API.graphql(
-      graphqlOperation(updateNote, { input: update })
-    )) as GraphQLResult<UpdateNoteMutation>;
+      graphqlOperation(updateNoteForClient, { input: update })
+    )) as GraphQLResult<UpdateNoteForClientMutation>;
     setIsLoading.off();
-  }, [id, setIsLoading, title, content]);
+  }, [id, setIsLoading, title, markdown]);
 
   return (
     <ContentLayout
@@ -99,7 +99,7 @@ export const Editor = () => {
           {isPreviewMode ? (
             <HtmlView html={previewHtml} />
           ) : (
-            <MDEditor value={content} onChange={handleContentChange} />
+            <MDEditor value={markdown} onChange={handleMarkdownChange} />
           )}
         </Box>
       </Container>

@@ -54,7 +54,8 @@ export const createNote = /* GraphQL */ `
     createNote(input: $input, condition: $condition) {
       id
       title
-      content
+      markdown
+      html
       authorId
       author {
         id
@@ -77,7 +78,8 @@ export const updateNote = /* GraphQL */ `
     updateNote(input: $input, condition: $condition) {
       id
       title
-      content
+      markdown
+      html
       authorId
       author {
         id
@@ -100,7 +102,8 @@ export const deleteNote = /* GraphQL */ `
     deleteNote(input: $input, condition: $condition) {
       id
       title
-      content
+      markdown
+      html
       authorId
       author {
         id
@@ -127,7 +130,8 @@ export const createFavorite = /* GraphQL */ `
       note {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id
@@ -155,7 +159,8 @@ export const deleteFavorite = /* GraphQL */ `
       note {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id
@@ -176,6 +181,48 @@ export const changeFavorite = /* GraphQL */ `
     changeFavorite(input: $input) {
       noteId
       isFavorite
+    }
+  }
+`;
+export const createNoteForClient = /* GraphQL */ `
+  mutation CreateNoteForClient($input: CreateNoteForClientInput!) {
+    createNoteForClient(input: $input) {
+      id
+      title
+      markdown
+      html
+      authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      favoriteCount
+      type
+      updatedAt
+      createdAt
+    }
+  }
+`;
+export const updateNoteForClient = /* GraphQL */ `
+  mutation UpdateNoteForClient($input: UpdateNoteForClientInput!) {
+    updateNoteForClient(input: $input) {
+      id
+      title
+      markdown
+      html
+      authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      favoriteCount
+      type
+      updatedAt
+      createdAt
     }
   }
 `;

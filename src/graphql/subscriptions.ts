@@ -41,7 +41,8 @@ export const onCreateFavorite = /* GraphQL */ `
       note {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id
@@ -66,7 +67,8 @@ export const onDeleteFavorite = /* GraphQL */ `
       note {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id

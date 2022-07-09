@@ -1,6 +1,6 @@
-import { FavoritesByDateQuery, ModelSortDirection } from '@/API';
+import { ListFavoritesByUserIdQuery, ModelSortDirection } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
-import { favoritesByDate } from '@/graphql/queries';
+import { listFavoritesByUserId } from '@/graphql/custom-queries';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box } from '@chakra-ui/react';
@@ -17,11 +17,11 @@ export const Favorites = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       const notesData = (await API.graphql(
-        graphqlOperation(favoritesByDate, {
+        graphqlOperation(listFavoritesByUserId, {
           userId: user?.username,
           sortDirection: ModelSortDirection.DESC,
         })
-      )) as GraphQLResult<FavoritesByDateQuery>;
+      )) as GraphQLResult<ListFavoritesByUserIdQuery>;
       const notesRaw = notesData.data?.favoritesByDate?.items;
       const formattedNotes = (notesRaw?.filter(Boolean).map((n) => ({
         ...n?.note,

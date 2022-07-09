@@ -1,6 +1,6 @@
-import { ModelSortDirection, NotesByAuthorAndDateQuery } from '@/API';
+import { ListNotesByAuthorQuery, ModelSortDirection } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
-import { notesByAuthorAndDate } from '@/graphql/queries';
+import { listNotesByAuthor } from '@/graphql/custom-queries';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box } from '@chakra-ui/react';
@@ -16,11 +16,11 @@ export const MyNotes = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       const notesData = (await API.graphql(
-        graphqlOperation(notesByAuthorAndDate, {
+        graphqlOperation(listNotesByAuthor, {
           authorId: user?.username,
           sortDirection: ModelSortDirection.DESC,
         })
-      )) as GraphQLResult<NotesByAuthorAndDateQuery>;
+      )) as GraphQLResult<ListNotesByAuthorQuery>;
       const notesRaw = notesData.data?.notesByAuthorAndDate?.items;
       const formattedNotes = (notesRaw
         ?.filter(Boolean)

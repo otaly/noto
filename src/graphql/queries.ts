@@ -7,7 +7,8 @@ export const getNote = /* GraphQL */ `
     getNote(id: $id) {
       id
       title
-      content
+      markdown
+      html
       authorId
       author {
         id
@@ -42,7 +43,8 @@ export const notesByAuthorAndDate = /* GraphQL */ `
       items {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id
@@ -79,7 +81,8 @@ export const notesByDate = /* GraphQL */ `
       items {
         id
         title
-        content
+        markdown
+        html
         authorId
         author {
           id
@@ -120,7 +123,8 @@ export const listFavorites = /* GraphQL */ `
         note {
           id
           title
-          content
+          markdown
+          html
           authorId
           favoriteCount
           type
@@ -156,7 +160,8 @@ export const favoritesByDate = /* GraphQL */ `
         note {
           id
           title
-          content
+          markdown
+          html
           authorId
           favoriteCount
           type
