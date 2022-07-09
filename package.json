@@ -28,7 +28,8 @@
     "react-scripts": "5.0.1",
     "react-simplemde-editor": "^5.0.2",
     "typescript": "^4.7.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zenn-content-css": "^0.1.114"
   },
   "scripts": {
     "start": "react-app-rewired start",

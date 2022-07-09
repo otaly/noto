@@ -1,12 +1,18 @@
-import { GetNoteQuery, UpdateNoteInput, UpdateNoteMutation } from '@/API';
+import {
+  GetNoteQuery,
+  PreviewMDMutation,
+  UpdateNoteInput,
+  UpdateNoteMutation,
+} from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
-import { updateNote } from '@/graphql/mutations';
+import { previewMD, updateNote } from '@/graphql/mutations';
 import { getNote } from '@/graphql/queries';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
 import { API, graphqlOperation } from 'aws-amplify';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { HtmlView } from '../components/HtmlView';
 import { MDEditor } from '../components/MDEditor';
 import { TitleTextarea } from '../components/TitleTextarea';
 
@@ -14,7 +20,9 @@ export const Editor = () => {
   const { id } = useParams();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [previewHtml, setPreviewHtml] = useState('');
   const [isLoading, setIsLoading] = useBoolean();
+  const [isPreviewMode, setIsPreviewMode] = useBoolean(false);
 
   useEffect(() => {
     if (id == null) {
@@ -41,6 +49,18 @@ export const Editor = () => {
     []
   );
 
+  const handleChangeIsPreview = useCallback(
+    async (isPreview: boolean) => {
+      if (isPreview) {
+        const previewResult = (await API.graphql(
+          graphqlOperation(previewMD, { markdown: content })
+        )) as GraphQLResult<PreviewMDMutation>;
+        setPreviewHtml(previewResult.data?.previewMD ?? '');
+      }
+      setIsPreviewMode.toggle();
+    },
+    [content, setIsPreviewMode]
+  );
   const handleClickUpdate = useCallback(async () => {
     if (id == null) {
       return;
@@ -60,6 +80,7 @@ export const Editor = () => {
           type="editor"
           isLoading={isLoading}
           onClickUpdate={handleClickUpdate}
+          onChangeIsPreview={handleChangeIsPreview}
         />
       }
     >
@@ -69,9 +90,17 @@ export const Editor = () => {
         py={8}
         maxW="container.xl"
       >
-        <TitleTextarea value={title} onChange={handleTitleChange} />
+        <TitleTextarea
+          value={title}
+          disabled={isPreviewMode}
+          onChange={handleTitleChange}
+        />
         <Box as="section" mb={6}>
-          <MDEditor value={content} onChange={handleContentChange} />
+          {isPreviewMode ? (
+            <HtmlView html={previewHtml} />
+          ) : (
+            <MDEditor value={content} onChange={handleContentChange} />
+          )}
         </Box>
       </Container>
     </ContentLayout>

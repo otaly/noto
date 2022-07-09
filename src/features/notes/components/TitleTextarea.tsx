@@ -4,10 +4,15 @@ import React, { useEffect } from 'react';
 
 export type TitleTextareaProps = {
   value?: string;
+  disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-export const TitleTextarea = ({ value = '', onChange }: TitleTextareaProps) => {
+export const TitleTextarea = ({
+  value = '',
+  disabled = false,
+  onChange,
+}: TitleTextareaProps) => {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     if (textareaRef.current) {
@@ -19,6 +24,7 @@ export const TitleTextarea = ({ value = '', onChange }: TitleTextareaProps) => {
     <Textarea
       ref={textareaRef}
       value={value}
+      disabled={disabled}
       autoFocus
       resize="none"
       placeholder="Title"
