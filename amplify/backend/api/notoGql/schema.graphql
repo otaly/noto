@@ -8,6 +8,7 @@ type User
         provider: userPools
         operations: [read, update]
       }
+      { allow: private, provider: userPools, operations: [read] }
       { allow: private, provider: iam, operations: [read, create, delete] }
       { allow: public, provider: iam, operations: [read] }
     ]
@@ -20,8 +21,14 @@ type Note
   @model(queries: { get: "getNote" }, subscriptions: { level: public })
   @auth(
     rules: [
-      { allow: owner, ownerField: "authorId", provider: userPools }
+      {
+        allow: owner
+        ownerField: "authorId"
+        provider: userPools
+        operations: [read, delete]
+      }
       { allow: private, provider: userPools, operations: [read] }
+      { allow: private, provider: iam, operations: [create, update] }
       { allow: public, provider: iam, operations: [read] }
     ]
   ) {
