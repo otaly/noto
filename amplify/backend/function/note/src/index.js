@@ -12,6 +12,9 @@ const AWSAppSyncClient = require('aws-appsync').default;
 const gql = require('graphql-tag');
 const { env } = require('process');
 
+const MAX_TITLE_LENGTH = 70;
+const MAX_MARKDOWN_LENGTH = 20000;
+
 const createNoteMutation = gql`
   mutation CreateNote(
     $input: CreateNoteInput!
@@ -105,6 +108,8 @@ exports.handler = async (event) => {
 
 const createNote = async (event) => {
   const { title, markdown } = event.arguments.input;
+  validate({ title, markdown });
+
   const html = await markdownToHtml(markdown);
 
   const result = await graphqlClient.mutate({
@@ -124,6 +129,8 @@ const createNote = async (event) => {
 
 const updateNote = async (event) => {
   const { id, title, markdown } = event.arguments.input;
+  validate({ title, markdown });
+
   const html = await markdownToHtml(markdown);
 
   const result = await graphqlClient.mutate({
@@ -149,4 +156,23 @@ const markdownToHtml = async (markdown) => {
     })
     .promise();
   return JSON.parse(result.Payload);
+};
+
+const validate = ({ title, markdown }) => {
+  const errors = [];
+
+  if (title.length > MAX_TITLE_LENGTH) {
+    errors.push(
+      `Title should be no longer than ${MAX_TITLE_LENGTH} characters.`
+    );
+  }
+  if (markdown.length > MAX_MARKDOWN_LENGTH) {
+    errors.push(
+      `Markdown should be no longer than ${MAX_MARKDOWN_LENGTH} characters.`
+    );
+  }
+
+  if (errors.length > 0) {
+    throw new Error(errors.join('\n'));
+  }
 };
