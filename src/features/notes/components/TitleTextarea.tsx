@@ -16,9 +16,15 @@ export const TitleTextarea = ({
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     if (textareaRef.current) {
-      autosize(textareaRef.current);
+      const textarea = textareaRef.current;
+      autosize(textarea);
+      // value変化後にupdateを行う必要がある
+      autosize.update(textarea);
+      return () => {
+        autosize.destroy(textarea);
+      };
     }
-  }, []);
+  }, [value]);
 
   return (
     <Textarea
