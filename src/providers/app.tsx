@@ -1,6 +1,8 @@
+import { queryClient } from '@/lib/react-query';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import React from 'react';
+import { QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { FavoriteIdsProvider } from './favoriteIds';
 
@@ -48,10 +50,12 @@ const theme = extendTheme({
 
 export const AppProvider = ({ children }: AppProviderProps) => (
   <ChakraProvider theme={theme}>
-    <Authenticator.Provider>
-      <FavoriteIdsProvider>
-        <BrowserRouter>{children}</BrowserRouter>
-      </FavoriteIdsProvider>
-    </Authenticator.Provider>
+    <QueryClientProvider client={queryClient}>
+      <Authenticator.Provider>
+        <FavoriteIdsProvider>
+          <BrowserRouter>{children}</BrowserRouter>
+        </FavoriteIdsProvider>
+      </Authenticator.Provider>
+    </QueryClientProvider>
   </ChakraProvider>
 );
