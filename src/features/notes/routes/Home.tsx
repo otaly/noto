@@ -1,12 +1,10 @@
-import { ListNotesQuery, ModelSortDirection } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
 import { AuthStatus } from '@/constants';
-import { listNotes } from '@/graphql/custom-queries';
-import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Heading } from '@chakra-ui/react';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import { useEffect, useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { useEffect } from 'react';
+import { useHomeNotes } from '../api/fetchHomeNotes';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsGrid } from '../components/NoteCardsGrid';
@@ -17,27 +15,20 @@ export const Home = () => {
     context.authStatus,
     context.user,
   ]);
-  const [notes, setNotes] = useState<NoteCardProps[]>([]);
   useEffect(() => {
     // 一旦雑に
     if (authStatus !== AuthStatus.AUTHENTICATED) {
       Amplify.configure({ aws_appsync_authenticationType: 'AWS_IAM' });
     }
-    const fetchNotes = async () => {
-      const notesData = (await API.graphql(
-        graphqlOperation(listNotes, {
-          sortDirection: ModelSortDirection.DESC,
-        })
-      )) as GraphQLResult<ListNotesQuery>;
-      const notesRaw = notesData.data?.notesByDate?.items;
-      const formattedNotes = (notesRaw
-        ?.filter(Boolean)
-        .map((n) => ({ ...n, isMyNote: n?.authorId === user?.username })) ??
-        []) as unknown as NoteCardProps[];
-      setNotes(formattedNotes);
-    };
-    fetchNotes();
-  }, []);
+  }, [authStatus]);
+
+  const { data, isLoading, status } = useHomeNotes();
+  const notes: NoteCardProps[] =
+    data?.map((note) => ({
+      ...note,
+      isMyNote: note.authorId === user?.username,
+      favoriteCount: note.favoriteCount ?? undefined,
+    })) ?? [];
 
   return (
     <ContentLayout header={<Header />}>

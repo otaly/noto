@@ -1,32 +1,20 @@
-import { GetNoteQuery } from '@/API';
 import { FavoriteButton } from '@/components/Elements/FavoriteButton';
 import { ContentLayout, Header } from '@/components/Layout';
 import { ALT_TITLE } from '@/constants';
-import { getNote } from '@/graphql/queries';
-import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container } from '@chakra-ui/react';
-import { API, graphqlOperation } from 'aws-amplify';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNote } from '../api/fetchNote';
 import { Author } from '../components/Author';
 import { HtmlView } from '../components/HtmlView';
 
 export const Note = () => {
   const { id } = useParams();
-  const [note, setNote] = useState<GetNoteQuery['getNote']>();
 
-  useEffect(() => {
-    if (id == null) {
-      return;
-    }
-    const fetchNote = async () => {
-      const { data } = (await API.graphql(
-        graphqlOperation(getNote, { id })
-      )) as GraphQLResult<GetNoteQuery>;
-      setNote(data?.getNote);
-    };
-    fetchNote();
-  }, [id]);
+  const { data, isLoading, status } = useNote({
+    id: id ?? '',
+    config: { enabled: id != null },
+  });
+  const note = data;
 
   return (
     <ContentLayout header={<Header />}>

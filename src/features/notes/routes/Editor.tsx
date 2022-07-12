@@ -1,17 +1,16 @@
 import {
-  GetNoteQuery,
   PreviewMDMutation,
   UpdateNoteForClientInput,
   UpdateNoteForClientMutation,
 } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
 import { previewMD, updateNoteForClient } from '@/graphql/mutations';
-import { getNote } from '@/graphql/queries';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
 import { API, graphqlOperation } from 'aws-amplify';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNote } from '../api/fetchNote';
 import { HtmlView } from '../components/HtmlView';
 import { MDEditor } from '../components/MDEditor';
 import { TitleTextarea } from '../components/TitleTextarea';
@@ -24,20 +23,16 @@ export const Editor = () => {
   const [isLoading, setIsLoading] = useBoolean();
   const [isPreviewMode, setIsPreviewMode] = useBoolean(false);
 
+  const { data } = useNote({
+    id: id ?? '',
+    config: { enabled: id != null },
+  });
+  const note = data;
+
   useEffect(() => {
-    if (id == null) {
-      return;
-    }
-    const fetchNote = async () => {
-      const noteData = (await API.graphql(
-        graphqlOperation(getNote, { id })
-      )) as GraphQLResult<GetNoteQuery>;
-      const note = noteData.data?.getNote;
-      setTitle(note?.title ?? '');
-      setMarkdown(note?.markdown ?? '');
-    };
-    fetchNote();
-  }, [id]);
+    setTitle(note?.title ?? '');
+    setMarkdown(note?.markdown ?? '');
+  }, [note]);
 
   const handleTitleChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) =>
