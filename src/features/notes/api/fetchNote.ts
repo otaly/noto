@@ -22,6 +22,6 @@ type UseNoteOptions = {
 export const useNote = ({ id, config }: UseNoteOptions) =>
   useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: ['note'],
+    queryKey: ['note', id],
     queryFn: () => fetchNote({ id }),
   });
