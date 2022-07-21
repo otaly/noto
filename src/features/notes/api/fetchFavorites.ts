@@ -28,6 +28,6 @@ type UseFavoritesOptions = {
 export const useFavorites = ({ username, config }: UseFavoritesOptions) =>
   useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: ['favorite-notes'],
+    queryKey: ['favorite-notes', username],
     queryFn: () => fetchFavorites({ username }),
   });

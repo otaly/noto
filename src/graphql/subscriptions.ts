@@ -2,6 +2,69 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateNote = /* GraphQL */ `
+  subscription OnCreateNote {
+    onCreateNote {
+      id
+      title
+      markdown
+      html
+      authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      favoriteCount
+      type
+      updatedAt
+      createdAt
+    }
+  }
+`;
+export const onUpdateNote = /* GraphQL */ `
+  subscription OnUpdateNote {
+    onUpdateNote {
+      id
+      title
+      markdown
+      html
+      authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      favoriteCount
+      type
+      updatedAt
+      createdAt
+    }
+  }
+`;
+export const onDeleteNote = /* GraphQL */ `
+  subscription OnDeleteNote {
+    onDeleteNote {
+      id
+      title
+      markdown
+      html
+      authorId
+      author {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      favoriteCount
+      type
+      updatedAt
+      createdAt
+    }
+  }
+`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($id: String) {
     onCreateUser(id: $id) {

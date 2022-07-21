@@ -4,7 +4,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Heading } from '@chakra-ui/react';
 import { Amplify } from 'aws-amplify';
 import { useEffect } from 'react';
-import { useHomeNotes } from '../api/fetchHomeNotes';
+import { useHomeNotes, useHomeNotesSubscriptions } from '../api/fetchHomeNotes';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsGrid } from '../components/NoteCardsGrid';
@@ -23,6 +23,7 @@ export const Home = () => {
   }, [authStatus]);
 
   const { data, isLoading, status } = useHomeNotes();
+  useHomeNotesSubscriptions();
   const notes: NoteCardProps[] =
     data?.map((note) => ({
       ...note,

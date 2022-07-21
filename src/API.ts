@@ -818,6 +818,72 @@ export type FavoritesByDateQuery = {
   } | null,
 };
 
+export type OnCreateNoteSubscription = {
+  onCreateNote?:  {
+    __typename: "Note",
+    id: string,
+    title: string,
+    markdown: string,
+    html: string,
+    authorId?: string | null,
+    author?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    favoriteCount?: number | null,
+    type: string,
+    updatedAt: string,
+    createdAt: string,
+  } | null,
+};
+
+export type OnUpdateNoteSubscription = {
+  onUpdateNote?:  {
+    __typename: "Note",
+    id: string,
+    title: string,
+    markdown: string,
+    html: string,
+    authorId?: string | null,
+    author?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    favoriteCount?: number | null,
+    type: string,
+    updatedAt: string,
+    createdAt: string,
+  } | null,
+};
+
+export type OnDeleteNoteSubscription = {
+  onDeleteNote?:  {
+    __typename: "Note",
+    id: string,
+    title: string,
+    markdown: string,
+    html: string,
+    authorId?: string | null,
+    author?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    favoriteCount?: number | null,
+    type: string,
+    updatedAt: string,
+    createdAt: string,
+  } | null,
+};
+
 export type OnCreateUserSubscriptionVariables = {
   id?: string | null,
 };
