@@ -1,9 +1,11 @@
 import {
+  OnCreateFavoriteSubscription,
   OnCreateNoteSubscription,
   OnDeleteNoteSubscription,
   OnUpdateNoteSubscription,
 } from '@/API';
 import {
+  onCreateFavorite,
   onCreateNote,
   onDeleteNote,
   onUpdateNote,
@@ -65,6 +67,31 @@ export const subscribeOnDeleteNote = ({
       next: (msg: SubscriptionResult<OnDeleteNoteSubscription>) => {
         const note = msg.value.data?.onDeleteNote;
         next(note);
+      },
+      error,
+    });
+  }
+};
+
+export const subscribeOnCreateFavorite = (
+  username: string,
+  {
+    next,
+    error,
+  }: {
+    next: (favorite: OnCreateFavoriteSubscription['onCreateFavorite']) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error?: (err: any) => void;
+  }
+) => {
+  const observable = API.graphql(
+    graphqlOperation(onCreateFavorite, { userId: username })
+  );
+  if ('subscribe' in observable) {
+    return observable.subscribe({
+      next: (msg: SubscriptionResult<OnCreateFavoriteSubscription>) => {
+        const favorite = msg.value.data?.onCreateFavorite;
+        next(favorite);
       },
       error,
     });

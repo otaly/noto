@@ -22,6 +22,23 @@ const createFavorite = gql`
       userId
       noteId
       createdAt
+      note {
+        id
+        title
+        markdown
+        html
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
     }
   }
 `;
@@ -34,6 +51,23 @@ const deleteFavorite = gql`
       userId
       noteId
       createdAt
+      note {
+        id
+        title
+        markdown
+        html
+        authorId
+        author {
+          id
+          name
+          createdAt
+          updatedAt
+        }
+        favoriteCount
+        type
+        updatedAt
+        createdAt
+      }
     }
   }
 `;
