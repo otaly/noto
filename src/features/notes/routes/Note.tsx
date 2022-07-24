@@ -1,6 +1,6 @@
-import { FavoriteButton } from '@/components/Elements/FavoriteButton';
 import { ContentLayout, Header } from '@/components/Layout';
 import { ALT_TITLE } from '@/constants';
+import { FavoriteButton } from '@/features/favorite/components/FavoriteButton';
 import { Box, Container } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useNote } from '../api/fetchNote';

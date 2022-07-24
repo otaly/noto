@@ -1,7 +1,6 @@
 import { ListNotesQuery, ModelSortDirection } from '@/API';
 import { listNotes } from '@/graphql/custom-queries';
 import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
-import { AwaitedReturnType } from '@/types';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -52,7 +51,7 @@ export const useHomeNotesSubscriptions = () => {
         }
         queryClient.setQueriesData(
           QUERY_KEY,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [note];
             }
@@ -70,7 +69,7 @@ export const useHomeNotesSubscriptions = () => {
         }
         queryClient.setQueriesData(
           QUERY_KEY,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [];
             }
@@ -88,7 +87,7 @@ export const useHomeNotesSubscriptions = () => {
         }
         queryClient.setQueriesData(
           QUERY_KEY,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [];
             }

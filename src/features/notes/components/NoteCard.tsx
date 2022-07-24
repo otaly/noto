@@ -1,6 +1,6 @@
 import { DeleteNoteInput, DeleteNoteMutation } from '@/API';
-import { FavoriteButton } from '@/components/Elements/FavoriteButton';
 import { ALT_TITLE } from '@/constants';
+import { FavoriteButton } from '@/features/favorite/components/FavoriteButton';
 import { deleteNote } from '@/graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';

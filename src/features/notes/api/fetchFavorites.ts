@@ -1,7 +1,6 @@
 import { ListFavoritesByUserIdQuery, ModelSortDirection } from '@/API';
 import { listFavoritesByUserId } from '@/graphql/custom-queries';
 import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
-import { AwaitedReturnType } from '@/types';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -61,7 +60,7 @@ export const useFavoritesSubscriptions = ({
         }
         queryClient.setQueriesData(
           queryKey,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [note];
             }
@@ -83,7 +82,7 @@ export const useFavoritesSubscriptions = ({
         }
         queryClient.setQueriesData(
           queryKey,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [];
             }
@@ -101,7 +100,7 @@ export const useFavoritesSubscriptions = ({
         }
         queryClient.setQueriesData(
           queryKey,
-          (prev: AwaitedReturnType<QueryFnType>) => {
+          (prev: ExtractFnReturnType<QueryFnType>) => {
             if (!prev) {
               return [];
             }
