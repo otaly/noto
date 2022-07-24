@@ -51,6 +51,10 @@
     "apinotoGqlGraphQLAPIEndpointOutput": {
       "Type": "String",
       "Default": "apinotoGqlGraphQLAPIEndpointOutput"
+    },
+    "functionnotoGqlLayerArn": {
+      "Type": "String",
+      "Default": "functionnotoGqlLayerArn"
     }
   },
   "Conditions": {
@@ -127,7 +131,12 @@
           "S3Key": {
             "Ref": "s3Key"
           }
-        }
+        },
+        "Layers": [
+          {
+            "Ref": "functionnotoGqlLayerArn"
+          }
+        ]
       }
     },
     "LambdaExecutionRole": {

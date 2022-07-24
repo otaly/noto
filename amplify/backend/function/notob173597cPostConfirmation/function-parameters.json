@@ -20,5 +20,14 @@
         "Mutation"
       ]
     }
-  }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "notoGqlLayer",
+      "env": "production",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
 }

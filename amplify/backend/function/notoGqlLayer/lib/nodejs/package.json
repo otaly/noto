@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92"
+  },
+  "dependencies": {
+    "aws-appsync": "^4.1.7",
+    "aws-sdk": "^2.1169.0",
+    "axios": "^0.27.2",
+    "graphql-tag": "^2.12.6",
+    "isomorphic-fetch": "^3.0.0"
+  }
+}

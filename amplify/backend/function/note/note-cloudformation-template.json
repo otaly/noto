@@ -27,6 +27,10 @@
     "functionconvertMDName": {
       "Type": "String",
       "Default": "functionconvertMDName"
+    },
+    "functionnotoGqlLayerArn": {
+      "Type": "String",
+      "Default": "functionnotoGqlLayerArn"
     }
   },
   "Conditions": {
@@ -101,7 +105,11 @@
         },
         "Runtime": "nodejs14.x",
         "MemorySize": "512",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functionnotoGqlLayerArn"
+          }
+        ],
         "Timeout": 25
       }
     },
