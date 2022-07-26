@@ -36,12 +36,22 @@ export const useHomeNotes = ({ config }: UseHomeNotesOptions = {}) =>
     queryFn: fetchHomeNotes,
   });
 
+type UseHomeNotesSubscriptionsOptions = {
+  config?: { enabled: boolean };
+};
+
 /**
  * create, update, deleteのsubscription。
  */
-export const useHomeNotesSubscriptions = () => {
+export const useHomeNotesSubscriptions = (
+  options?: UseHomeNotesSubscriptionsOptions
+) => {
   const queryClient = useQueryClient();
   useEffect(() => {
+    if (options?.config?.enabled === false) {
+      return;
+    }
+
     const subscriptions: ({ unsubscribe: () => void } | undefined)[] = [];
 
     const createSubscription = subscribeOnCreateNote({
@@ -99,5 +109,5 @@ export const useHomeNotesSubscriptions = () => {
     subscriptions.push(deleteSubscription);
 
     return () => subscriptions.forEach((s) => s?.unsubscribe());
-  }, [queryClient]);
+  }, [options?.config?.enabled, queryClient]);
 };

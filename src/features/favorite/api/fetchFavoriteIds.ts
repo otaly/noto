@@ -35,14 +35,24 @@ export const useFavoriteIds = ({ username, config }: UseFavoriteIdsOptions) =>
     queryFn: () => fetchFavoriteIds({ username }),
   });
 
+type UseFavoriteIdsSubscriptionsOptions = {
+  username: string;
+  config?: { enabled: boolean };
+};
+
 /**
  * create, deleteのsubscription。
  */
 export const useFavoriteIdsSubscriptions = ({
   username,
-}: Pick<UseFavoriteIdsOptions, 'username'>) => {
+  config,
+}: UseFavoriteIdsSubscriptionsOptions) => {
   const queryClient = useQueryClient();
   useEffect(() => {
+    if (config?.enabled === false) {
+      return;
+    }
+
     const queryKey = getQueryKey(username);
     const subscriptions: ({ unsubscribe: () => void } | undefined)[] = [];
 
@@ -83,5 +93,5 @@ export const useFavoriteIdsSubscriptions = ({
     subscriptions.push(deleteSubscription);
 
     return () => subscriptions.forEach((s) => s?.unsubscribe());
-  }, [queryClient, username]);
+  }, [config?.enabled, queryClient, username]);
 };

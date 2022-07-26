@@ -15,15 +15,18 @@ export const Home = () => {
     context.authStatus,
     context.user,
   ]);
+  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
+
   useEffect(() => {
     // 一旦雑に
-    if (authStatus !== AuthStatus.AUTHENTICATED) {
+    if (!isSignedIn) {
       Amplify.configure({ aws_appsync_authenticationType: 'AWS_IAM' });
     }
-  }, [authStatus]);
+  }, [isSignedIn]);
 
   const { data, isLoading, status } = useHomeNotes();
-  useHomeNotesSubscriptions();
+  // TODO: 未ログインでのsubscription
+  useHomeNotesSubscriptions({ config: { enabled: isSignedIn } });
   const notes: NoteCardProps[] =
     data?.map((note) => ({
       ...note,
