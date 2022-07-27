@@ -2,8 +2,6 @@ import { ContentLayout, Header } from '@/components/Layout';
 import { AuthStatus } from '@/constants';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Heading } from '@chakra-ui/react';
-import { Amplify } from 'aws-amplify';
-import { useEffect } from 'react';
 import { useHomeNotes, useHomeNotesSubscriptions } from '../api/fetchHomeNotes';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
@@ -15,17 +13,10 @@ export const Home = () => {
     context.authStatus,
     context.user,
   ]);
-  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
-
-  useEffect(() => {
-    // 一旦雑に
-    if (!isSignedIn) {
-      Amplify.configure({ aws_appsync_authenticationType: 'AWS_IAM' });
-    }
-  }, [isSignedIn]);
 
   const { data, isLoading, status } = useHomeNotes();
   // TODO: 未ログインでのsubscription
+  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
   useHomeNotesSubscriptions({ config: { enabled: isSignedIn } });
   const notes: NoteCardProps[] =
     data?.map((note) => ({

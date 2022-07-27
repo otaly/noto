@@ -13,8 +13,8 @@ import {
   LibraryBooksOutlined,
 } from '@mui/icons-material';
 import { SvgIconProps } from '@mui/material';
-import { API, graphqlOperation } from 'aws-amplify';
-import React, { useCallback } from 'react';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import React, { useCallback, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ActionButton } from '../Elements/ActionButton';
 
@@ -134,15 +134,30 @@ type MainLayoutProps = {
   children: React.ReactNode;
 };
 
-export const MainLayout = ({ children }: MainLayoutProps) => (
-  <Flex
-    bg="base.500"
-    overflow="hidden"
-    css={css({ height: ['100vh', '100dvh'] })}
-  >
-    <Sidebar />
-    <Flex direction="column" grow={1} position="relative" overflow="auto">
-      {children}
+export const MainLayout = ({ children }: MainLayoutProps) => {
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+
+  // FIXME: サインイン直後にsubscriptionsがUnauthorizedExceptionになる。あとこれを書く場所が微妙な気がするので移動。
+  useEffect(() => {
+    if (authStatus === AuthStatus.AUTHENTICATED) {
+      Amplify.configure({
+        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+      });
+    } else {
+      Amplify.configure({ aws_appsync_authenticationType: 'AWS_IAM' });
+    }
+  }, [authStatus]);
+
+  return (
+    <Flex
+      bg="base.500"
+      overflow="hidden"
+      css={css({ height: ['100vh', '100dvh'] })}
+    >
+      <Sidebar />
+      <Flex direction="column" grow={1} position="relative" overflow="auto">
+        {children}
+      </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
