@@ -6,6 +6,7 @@ import { useMyNotes, useMyNotesSubscriptions } from '../api/fetchMyNotes';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
+import { UnauthDisplay } from '../components/UnauthDisplay';
 
 export const MyNotes = () => {
   const { user, authStatus } = useAuthenticator((context) => [
@@ -30,11 +31,15 @@ export const MyNotes = () => {
 
   return (
     <ContentLayout header={<Header />}>
-      <NoteCardsLayout>
-        <Box py={4}>
-          <NoteCards notes={notes} />
-        </Box>
-      </NoteCardsLayout>
+      {isSignedIn ? (
+        <NoteCardsLayout>
+          <Box py={4}>
+            <NoteCards notes={notes} />
+          </Box>
+        </NoteCardsLayout>
+      ) : (
+        <UnauthDisplay message="ログインすると自分のノートが表示されます" />
+      )}
     </ContentLayout>
   );
 };

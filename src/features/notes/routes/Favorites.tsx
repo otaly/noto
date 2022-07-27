@@ -6,6 +6,7 @@ import { useFavorites, useFavoritesSubscriptions } from '../api/fetchFavorites';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
+import { UnauthDisplay } from '../components/UnauthDisplay';
 
 export const Favorites = () => {
   const { user, authStatus } = useAuthenticator((context) => [
@@ -30,11 +31,15 @@ export const Favorites = () => {
 
   return (
     <ContentLayout header={<Header />}>
-      <NoteCardsLayout>
-        <Box py={4}>
-          <NoteCards notes={notes} />
-        </Box>
-      </NoteCardsLayout>
+      {isSignedIn ? (
+        <NoteCardsLayout>
+          <Box py={4}>
+            <NoteCards notes={notes} />
+          </Box>
+        </NoteCardsLayout>
+      ) : (
+        <UnauthDisplay message="ログインするとお気に入りしたノートが表示されます" />
+      )}
     </ContentLayout>
   );
 };

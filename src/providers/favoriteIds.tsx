@@ -20,9 +20,10 @@ export const FavoriteIdsProvider = ({ children }: FavoriteIdsProviderProps) => {
   const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
   const username = user?.username ?? '';
 
+  // TODO: 一旦suspense: falseにしているが、要検討。
   const { data } = useFavoriteIds({
     username,
-    config: { enabled: isSignedIn },
+    config: { enabled: isSignedIn, suspense: false },
   });
   useFavoriteIdsSubscriptions({ username, config: { enabled: isSignedIn } });
   const favoriteIds = useMemo(() => data ?? [], [data]);

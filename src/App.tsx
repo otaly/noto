@@ -12,9 +12,10 @@ const App = () => (
       <Suspense
         fallback={
           <>
+            {/* ダミーのヘッダー */}
             <Box h={16} flexShrink={0} bg="white" shadow="xs" />
             <Center h="full" w="full">
-              <Spinner size="xl" />
+              <Spinner size="xl" thickness="4px" color="blue.400" />
             </Center>
           </>
         }

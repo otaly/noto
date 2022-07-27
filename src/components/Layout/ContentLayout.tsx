@@ -9,10 +9,8 @@ type ContentLayoutProps = {
 export const ContentLayout = ({ header, children }: ContentLayoutProps) => (
   <>
     {header}
-    <Flex as="main" direction="column">
-      <Flex direction="column" justifyContent="center" py={8}>
-        {children}
-      </Flex>
+    <Flex as="main" direction="column" grow={1} py={8}>
+      {children}
     </Flex>
   </>
 );
