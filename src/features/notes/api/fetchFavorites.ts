@@ -1,6 +1,10 @@
 import { ListFavoritesByUserIdQuery, ModelSortDirection } from '@/API';
 import { listFavoritesByUserId } from '@/graphql/custom-queries';
-import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
+import {
+  ExtractFnReturnType,
+  QueryConfig,
+  UseSubscriptionsConfig,
+} from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -40,15 +44,25 @@ export const useFavorites = ({ username, config }: UseFavoritesOptions) =>
     queryFn: () => fetchFavorites({ username }),
   });
 
+type UseFavoritesSubscriptionsOptions = {
+  username: string;
+  config?: UseSubscriptionsConfig;
+};
+
 /**
  * お気に入りのcreate、ノートのupdate, deleteのsubscription。
  * お気に入り解除時にすぐにノートを非表示にしないために、お気に入りのdelete時は何もしない。
  */
 export const useFavoritesSubscriptions = ({
   username,
-}: Pick<UseFavoritesOptions, 'username'>) => {
+  config,
+}: UseFavoritesSubscriptionsOptions) => {
   const queryClient = useQueryClient();
   useEffect(() => {
+    if (config?.enabled === false) {
+      return;
+    }
+
     const queryKey = getQueryKey(username);
     const subscriptions: ({ unsubscribe: () => void } | undefined)[] = [];
 
@@ -112,5 +126,5 @@ export const useFavoritesSubscriptions = ({
     subscriptions.push(deleteNoteSubscription);
 
     return () => subscriptions.forEach((s) => s?.unsubscribe());
-  }, [queryClient, username]);
+  }, [config?.enabled, queryClient, username]);
 };

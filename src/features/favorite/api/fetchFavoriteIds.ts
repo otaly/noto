@@ -1,6 +1,10 @@
 import { ListFavoriteIdsQuery } from '@/API';
 import { listFavoriteIds } from '@/graphql/custom-queries';
-import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
+import {
+  ExtractFnReturnType,
+  QueryConfig,
+  UseSubscriptionsConfig,
+} from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -37,7 +41,7 @@ export const useFavoriteIds = ({ username, config }: UseFavoriteIdsOptions) =>
 
 type UseFavoriteIdsSubscriptionsOptions = {
   username: string;
-  config?: { enabled: boolean };
+  config?: UseSubscriptionsConfig;
 };
 
 /**

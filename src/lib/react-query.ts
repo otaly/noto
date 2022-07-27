@@ -24,6 +24,10 @@ export type QueryConfig<QueryFnType extends (...args: any) => any> = Omit<
   'queryKey' | 'queryFn'
 >;
 
+export type UseSubscriptionsConfig = {
+  enabled: boolean;
+};
+
 export type MutationConfig<MutationFnType extends (...args: any) => any> =
   UseMutationOptions<
     ExtractFnReturnType<MutationFnType>,

@@ -1,6 +1,10 @@
 import { ListNotesByAuthorQuery, ModelSortDirection } from '@/API';
 import { listNotesByAuthor } from '@/graphql/custom-queries';
-import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
+import {
+  ExtractFnReturnType,
+  QueryConfig,
+  UseSubscriptionsConfig,
+} from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -38,14 +42,24 @@ export const useMyNotes = ({ username, config }: UseMyNotesOptions) =>
     queryFn: () => fetchMyNotes({ username }),
   });
 
+type UseMyNotesSubscriptionsOptions = {
+  username: string;
+  config?: UseSubscriptionsConfig;
+};
+
 /**
  * create, update, deleteのsubscription。
  */
 export const useMyNotesSubscriptions = ({
   username,
-}: Pick<UseMyNotesOptions, 'username'>) => {
+  config,
+}: UseMyNotesSubscriptionsOptions) => {
   const queryClient = useQueryClient();
   useEffect(() => {
+    if (config?.enabled === false) {
+      return;
+    }
+
     const queryKey = getQueryKey(username);
     const subscriptions: ({ unsubscribe: () => void } | undefined)[] = [];
 
@@ -104,5 +118,5 @@ export const useMyNotesSubscriptions = ({
     subscriptions.push(deleteSubscription);
 
     return () => subscriptions.forEach((s) => s?.unsubscribe());
-  }, [queryClient, username]);
+  }, [config?.enabled, queryClient, username]);
 };

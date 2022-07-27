@@ -1,4 +1,5 @@
 import { ContentLayout, Header } from '@/components/Layout';
+import { AuthStatus } from '@/constants';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box } from '@chakra-ui/react';
 import { useMyNotes, useMyNotesSubscriptions } from '../api/fetchMyNotes';
@@ -7,14 +8,19 @@ import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 export const MyNotes = () => {
-  const { user } = useAuthenticator((context) => [context.user]);
-
+  const { user, authStatus } = useAuthenticator((context) => [
+    context.user,
+    context.authStatus,
+  ]);
+  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
   const username = user?.username ?? '';
+
   const { data, isLoading, status } = useMyNotes({
     username,
-    config: { enabled: user?.username != null },
+    config: { enabled: isSignedIn },
   });
-  useMyNotesSubscriptions({ username });
+  useMyNotesSubscriptions({ username, config: { enabled: isSignedIn } });
+
   const notes: NoteCardProps[] =
     data?.map((note) => ({
       ...note,
