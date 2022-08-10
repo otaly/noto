@@ -7,10 +7,9 @@
 	REGION
 Amplify Params - DO NOT EDIT */
 
-require('isomorphic-fetch');
 const aws = require('aws-sdk');
-const AWSAppSyncClient = require('aws-appsync').default;
 const gql = require('graphql-tag');
+const { graphqlClient } = require('/opt/graphqlClient');
 const { env } = require('process');
 
 const createFavorite = gql`
@@ -72,7 +71,6 @@ const deleteFavorite = gql`
   }
 `;
 
-let graphqlClient;
 let dynamoClient;
 
 const resolvers = {
@@ -92,19 +90,6 @@ const resolvers = {
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event, _, callback) => {
-  const graphql_auth = {
-    type: 'AWS_IAM',
-    credentials: () => aws.config.credentials,
-  };
-
-  if (!graphqlClient) {
-    graphqlClient = new AWSAppSyncClient({
-      url: env.API_NOTOGQL_GRAPHQLAPIENDPOINTOUTPUT,
-      region: env.REGION,
-      auth: graphql_auth,
-      disableOffline: true,
-    });
-  }
   if (!dynamoClient) {
     dynamoClient = new aws.DynamoDB.DocumentClient({
       region: env.REGION,
