@@ -81,7 +81,7 @@ type Favorite
       queryField: "favoritesByDate"
       sortKeyFields: ["createdAt"]
     )
-  noteId: ID!
+  noteId: ID! @index(name: "favoritesByNoteId", queryField: "favoritesByNoteId")
   createdAt: AWSDateTime!
   note: Note @hasOne(fields: ["noteId"])
 }

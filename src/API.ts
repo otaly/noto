@@ -818,6 +818,39 @@ export type FavoritesByDateQuery = {
   } | null,
 };
 
+export type FavoritesByNoteIdQueryVariables = {
+  noteId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FavoritesByNoteIdQuery = {
+  favoritesByNoteId?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      userId: string,
+      noteId: string,
+      createdAt: string,
+      note?:  {
+        __typename: "Note",
+        id: string,
+        title: string,
+        markdown: string,
+        html: string,
+        authorId?: string | null,
+        favoriteCount?: number | null,
+        type: string,
+        updatedAt: string,
+        createdAt: string,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateNoteSubscription = {
   onCreateNote?:  {
     __typename: "Note",

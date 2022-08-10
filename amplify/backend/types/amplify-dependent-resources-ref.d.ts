@@ -43,6 +43,12 @@ export type AmplifyDependentResourcesAttributes = {
         },
         "notoGqlLayer": {
             "Arn": "string"
+        },
+        "noteTrigger": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
         }
     }
 }

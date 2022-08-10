@@ -173,3 +173,38 @@ export const favoritesByDate = /* GraphQL */ `
     }
   }
 `;
+export const favoritesByNoteId = /* GraphQL */ `
+  query FavoritesByNoteId(
+    $noteId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelFavoriteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    favoritesByNoteId(
+      noteId: $noteId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        userId
+        noteId
+        createdAt
+        note {
+          id
+          title
+          markdown
+          html
+          authorId
+          favoriteCount
+          type
+          updatedAt
+          createdAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
