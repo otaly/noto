@@ -3,6 +3,7 @@ import { AuthStatus } from '@/constants';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Heading } from '@chakra-ui/react';
 import { useHomeNotes, useHomeNotesSubscriptions } from '../api/fetchHomeNotes';
+import { AltDisplay } from '../components/AltDisplay';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsGrid } from '../components/NoteCardsGrid';
@@ -42,7 +43,11 @@ export const Home = () => {
               &nbsp;最新のノート
             </Heading>
           </NoteCardsGrid>
-          <NoteCards notes={notes} />
+          {notes.length > 0 ? (
+            <NoteCards notes={notes} />
+          ) : (
+            <AltDisplay message="ノートがありません" />
+          )}
         </Box>
       </NoteCardsLayout>
     </ContentLayout>

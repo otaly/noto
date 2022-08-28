@@ -3,10 +3,10 @@ import { AuthStatus } from '@/constants';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box } from '@chakra-ui/react';
 import { useFavorites, useFavoritesSubscriptions } from '../api/fetchFavorites';
+import { AltDisplay } from '../components/AltDisplay';
 import { NoteCardProps } from '../components/NoteCard';
 import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
-import { UnauthDisplay } from '../components/UnauthDisplay';
 
 export const Favorites = () => {
   const { user, authStatus } = useAuthenticator((context) => [
@@ -29,16 +29,23 @@ export const Favorites = () => {
       favoriteCount: note.favoriteCount ?? undefined,
     })) ?? [];
 
+  let altMessage = null;
+  if (!isSignedIn) {
+    altMessage = 'ログインするとお気に入りしたノートが表示されます';
+  } else if (notes.length === 0) {
+    altMessage = 'ノートがありません';
+  }
+
   return (
     <ContentLayout header={<Header />}>
-      {isSignedIn ? (
+      {altMessage ? (
+        <AltDisplay message={altMessage} />
+      ) : (
         <NoteCardsLayout>
           <Box py={4}>
             <NoteCards notes={notes} />
           </Box>
         </NoteCardsLayout>
-      ) : (
-        <UnauthDisplay message="ログインするとお気に入りしたノートが表示されます" />
       )}
     </ContentLayout>
   );
