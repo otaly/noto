@@ -13,7 +13,7 @@ import {
   LibraryBooksOutlined,
 } from '@mui/icons-material';
 import { SvgIconProps } from '@mui/material';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { API, Amplify, graphqlOperation } from 'aws-amplify';
 import React, { useCallback, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ActionButton } from '../Elements/ActionButton';
@@ -32,7 +32,7 @@ const SideNavigation = () => {
   ];
 
   return (
-    <>
+    <Flex direction="column" gap={4}>
       {navigation.map((item, index) => (
         <NavLink
           end={index === 0}
@@ -74,7 +74,7 @@ const SideNavigation = () => {
           </Flex>
         </NavLink>
       ))}
-    </>
+    </Flex>
   );
 };
 
@@ -122,9 +122,7 @@ const Sidebar = () => {
             新規作成
           </ActionButton>
         )}
-        <Flex direction="column" gap={4}>
-          <SideNavigation />
-        </Flex>
+        <SideNavigation />
       </Flex>
     </Flex>
   );
