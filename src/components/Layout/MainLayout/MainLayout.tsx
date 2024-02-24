@@ -194,15 +194,23 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => (
   <Flex
-    bg="base.500"
-    overflow="hidden"
     css={css`
-      height: 100vh;
-      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
     `}
   >
-    <Sidebar />
-    <Flex direction="column" grow={1} position="relative" overflow="auto">
+    <Box
+      position="sticky"
+      top={0}
+      display="flex"
+      css={css`
+        height: 100vh;
+        height: 100dvh;
+      `}
+    >
+      <Sidebar />
+    </Box>
+    <Flex direction="column" grow={1} position="relative">
       {children}
     </Flex>
   </Flex>

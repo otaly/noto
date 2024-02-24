@@ -13,6 +13,13 @@ type AppProviderProps = {
 const font =
   'Helvetica, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", Arial, Meiryo, sans-serif';
 const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        bg: 'base.500',
+      },
+    },
+  },
   fonts: {
     heading: font,
     body: font,
