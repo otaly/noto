@@ -1,4 +1,5 @@
-import { AuthStatus } from '@/constants';
+import { useUserName } from '@/features/auth/api/fetchUserName';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { CheckIcon } from '@chakra-ui/icons';
 import {
@@ -34,10 +35,9 @@ export const Header = ({
   onClickUpdate,
   onChangeIsPreview,
 }: HeaderProps) => {
-  const { authStatus, user, signOut } = useAuthenticator((context) => [
-    context.authStatus,
-    context.user,
-  ]);
+  const { isSignedIn } = useCurrentUser();
+  const { signOut } = useAuthenticator((context) => [context.signOut]);
+  const { name } = useUserName({ config: { enabled: isSignedIn } });
   const navigate = useNavigate();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,7 +50,7 @@ export const Header = ({
 
   let content: React.ReactNode;
   let headerStyles = {};
-  if (authStatus !== AuthStatus.AUTHENTICATED) {
+  if (!isSignedIn) {
     content = (
       <>
         <Button
@@ -104,7 +104,7 @@ export const Header = ({
         content = (
           <Menu>
             <MenuButton>
-              <Avatar name={user?.attributes?.name} w={12} h={12} />
+              <Avatar name={name} w={12} h={12} />
             </MenuButton>
             <MenuList>
               <MenuItem onClick={handleClickLogOut}>ログアウト</MenuItem>

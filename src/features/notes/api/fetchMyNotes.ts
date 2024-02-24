@@ -7,7 +7,7 @@ import {
 } from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import {
@@ -16,13 +16,16 @@ import {
   subscribeOnUpdateNote,
 } from './subscriptions';
 
+const client = generateClient();
+
 const fetchMyNotes = async ({ username }: { username: string }) => {
-  const { data } = (await API.graphql(
-    graphqlOperation(listNotesByAuthor, {
+  const { data } = (await client.graphql({
+    query: listNotesByAuthor,
+    variables: {
       authorId: username,
       sortDirection: ModelSortDirection.DESC,
-    })
-  )) as GraphQLResult<ListNotesByAuthorQuery>;
+    },
+  })) as GraphQLResult<ListNotesByAuthorQuery>;
   return data?.notesByAuthorAndDate?.items.filter(nonNullableFilter);
 };
 
@@ -75,7 +78,7 @@ export const useMyNotesSubscriptions = ({
               return [note];
             }
             return [note, ...prev];
-          }
+          },
         );
       },
     });
@@ -93,7 +96,7 @@ export const useMyNotesSubscriptions = ({
               return [];
             }
             return prev.map((n) => (n.id === note.id ? note : n));
-          }
+          },
         );
       },
     });
@@ -111,7 +114,7 @@ export const useMyNotesSubscriptions = ({
               return [];
             }
             return prev.filter((n) => n.id !== note.id);
-          }
+          },
         );
       },
     });

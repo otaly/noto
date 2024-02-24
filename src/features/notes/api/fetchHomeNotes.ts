@@ -7,7 +7,7 @@ import {
 } from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import {
@@ -16,14 +16,17 @@ import {
   subscribeOnUpdateNote,
 } from './subscriptions';
 
+const client = generateClient({ authMode: 'iam' });
+
 const QUERY_KEY = ['home-notes'];
 
 const fetchHomeNotes = async () => {
-  const { data } = (await API.graphql(
-    graphqlOperation(listNotes, {
+  const { data } = (await client.graphql({
+    query: listNotes,
+    variables: {
       sortDirection: ModelSortDirection.DESC,
-    })
-  )) as GraphQLResult<ListNotesQuery>;
+    },
+  })) as GraphQLResult<ListNotesQuery>;
   return data?.notesByDate?.items.filter(nonNullableFilter);
 };
 
@@ -48,7 +51,7 @@ type UseHomeNotesSubscriptionsOptions = {
  * create, update, deleteのsubscription。
  */
 export const useHomeNotesSubscriptions = (
-  options?: UseHomeNotesSubscriptionsOptions
+  options?: UseHomeNotesSubscriptionsOptions,
 ) => {
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -70,7 +73,7 @@ export const useHomeNotesSubscriptions = (
               return [note];
             }
             return [note, ...prev];
-          }
+          },
         );
       },
     });
@@ -88,7 +91,7 @@ export const useHomeNotesSubscriptions = (
               return [];
             }
             return prev.map((n) => (n.id === note.id ? note : n));
-          }
+          },
         );
       },
     });
@@ -106,7 +109,7 @@ export const useHomeNotesSubscriptions = (
               return [];
             }
             return prev.filter((n) => n.id !== note.id);
-          }
+          },
         );
       },
     });

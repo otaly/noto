@@ -6,7 +6,6 @@ import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import {
   Box,
-  chakra,
   Flex,
   Heading,
   IconButton,
@@ -18,12 +17,15 @@ import {
   MenuItem,
   MenuList,
   Text,
+  chakra,
   useToast,
 } from '@chakra-ui/react';
 import { MoreVert as MoreVertRaw } from '@mui/icons-material';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
+
+const client = generateClient();
 
 const MoreVert = chakra(MoreVertRaw);
 
@@ -37,17 +39,17 @@ const NoteCardMenu = ({ title, id }: NoteCardMenuProps) => {
 
   const handleClickDelete = useCallback(async () => {
     // 暫定でconfirm
-    // eslint-disable-next-line no-restricted-globals
     if (!confirm(`'${title || ALT_TITLE}'を削除してよろしいですか？`)) {
       return;
     }
 
     const deleteInput: DeleteNoteInput = { id };
-    (await API.graphql(
-      graphqlOperation(deleteNote, {
+    (await client.graphql({
+      query: deleteNote,
+      variables: {
         input: deleteInput,
-      })
-    )) as GraphQLResult<DeleteNoteMutation>;
+      },
+    })) as GraphQLResult<DeleteNoteMutation>;
 
     toast({
       title: '削除しました',

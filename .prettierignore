@@ -1,2 +1,10 @@
 build
+dist
 coverage
+amplify
+package-lock.json
+src/models
+src/API.ts
+src/graphql/mutations.ts
+src/graphql/queries.ts
+src/graphql/subscriptions.ts

@@ -1,9 +1,8 @@
 import { CreateNoteForClientInput, CreateNoteForClientMutation } from '@/API';
 import logo from '@/assets/logo.svg';
-import { AuthStatus } from '@/constants';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { createNoteForClient } from '@/graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import {
@@ -12,16 +11,16 @@ import {
   HomeOutlined,
   LibraryBooksOutlined,
 } from '@mui/icons-material';
-import { SvgIconProps } from '@mui/material';
-import { API, Amplify, graphqlOperation } from 'aws-amplify';
-import React, { useCallback, useEffect } from 'react';
+import { generateClient } from 'aws-amplify/api';
+import React, { useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ActionButton } from '../Elements/ActionButton';
 
 type SideNavigationItem = {
   name: string;
   to: string;
-  icon: (props: SvgIconProps) => JSX.Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: (props: any) => JSX.Element | null;
 };
 
 const SideNavigation = () => {
@@ -40,10 +39,12 @@ const SideNavigation = () => {
           to={item.to}
           style={(navData) =>
             navData.isActive
-              ? { background: 'var(--chakra-colors-primary-700)' }
-              : {}
+              ? {
+                  background: 'var(--chakra-colors-primary-700)',
+                  borderRadius: '5px',
+                }
+              : { borderRadius: '5px' }
           }
-          css={css({ borderRadius: '5px' })}
         >
           <Flex
             px={2}
@@ -80,30 +81,30 @@ const SideNavigation = () => {
 
 const Logo = () => <img src={logo} alt="noto" />;
 
+const client = generateClient();
+
 const Sidebar = () => {
-  const { authStatus, user } = useAuthenticator((context) => [
-    context.authStatus,
-    context.user,
-  ]);
+  const { isSignedIn } = useCurrentUser();
   const navigate = useNavigate();
 
   const handleCreateNote = useCallback(async () => {
-    if (!user?.username) {
+    if (!isSignedIn) {
       return;
     }
     const newNote: CreateNoteForClientInput = {
       title: '',
       markdown: '',
     };
-    const noteData = (await API.graphql(
-      graphqlOperation(createNoteForClient, { input: newNote })
-    )) as GraphQLResult<CreateNoteForClientMutation>;
+    const noteData = (await client.graphql({
+      query: createNoteForClient,
+      variables: { input: newNote },
+    })) as GraphQLResult<CreateNoteForClientMutation>;
     const note = noteData.data?.createNoteForClient;
     if (!note) {
       return;
     }
     navigate(`/note/${note.id}/edit`);
-  }, [navigate, user?.username]);
+  }, [navigate, isSignedIn]);
 
   return (
     <Flex direction="column" w={64} shrink={0}>
@@ -113,7 +114,7 @@ const Sidebar = () => {
         </Link>
       </Box>
       <Flex px={4} py={5} direction="column" grow={1} bg="primary.500">
-        {authStatus === AuthStatus.AUTHENTICATED && (
+        {isSignedIn && (
           <ActionButton
             icon={<Add css={css({ width: '2.25rem', height: '2.25rem' })} />}
             marginBottom={6}
@@ -132,30 +133,15 @@ type MainLayoutProps = {
   children: React.ReactNode;
 };
 
-export const MainLayout = ({ children }: MainLayoutProps) => {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-
-  // FIXME: サインイン直後にsubscriptionsがUnauthorizedExceptionになる。あとこれを書く場所が微妙な気がするので移動。
-  useEffect(() => {
-    if (authStatus === AuthStatus.AUTHENTICATED) {
-      Amplify.configure({
-        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-      });
-    } else {
-      Amplify.configure({ aws_appsync_authenticationType: 'AWS_IAM' });
-    }
-  }, [authStatus]);
-
-  return (
-    <Flex
-      bg="base.500"
-      overflow="hidden"
-      css={css({ height: ['100vh', '100dvh'] })}
-    >
-      <Sidebar />
-      <Flex direction="column" grow={1} position="relative" overflow="auto">
-        {children}
-      </Flex>
+export const MainLayout = ({ children }: MainLayoutProps) => (
+  <Flex
+    bg="base.500"
+    overflow="hidden"
+    css={css({ height: ['100vh', '100dvh'] })}
+  >
+    <Sidebar />
+    <Flex direction="column" grow={1} position="relative" overflow="auto">
+      {children}
     </Flex>
-  );
-};
+  </Flex>
+);

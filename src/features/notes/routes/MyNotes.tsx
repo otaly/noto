@@ -1,6 +1,5 @@
 import { ContentLayout, Header } from '@/components/Layout';
-import { AuthStatus } from '@/constants';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Box } from '@chakra-ui/react';
 import { useMyNotes, useMyNotesSubscriptions } from '../api/fetchMyNotes';
 import { AltDisplay } from '../components/AltDisplay';
@@ -9,14 +8,9 @@ import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 export const MyNotes = () => {
-  const { user, authStatus } = useAuthenticator((context) => [
-    context.user,
-    context.authStatus,
-  ]);
-  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
-  const username = user?.username ?? '';
+  const { isSignedIn, username } = useCurrentUser();
 
-  const { data, isLoading, status } = useMyNotes({
+  const { data } = useMyNotes({
     username,
     config: { enabled: isSignedIn },
   });

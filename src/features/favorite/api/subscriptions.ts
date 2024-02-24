@@ -6,8 +6,9 @@ import {
   onCreateFavoriteId,
   onDeleteFavoriteId,
 } from '@/graphql/custom-subscriptions';
-import { SubscriptionResult } from '@/types';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient();
 
 export const subscribeOnCreate = (
   username: string,
@@ -16,19 +17,20 @@ export const subscribeOnCreate = (
     error,
   }: {
     next: (
-      favorite: OnCreateFavoriteIdSubscription['onCreateFavorite']
+      favorite: OnCreateFavoriteIdSubscription['onCreateFavorite'],
     ) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: (err: any) => void;
-  }
+  },
 ) => {
-  const observable = API.graphql(
-    graphqlOperation(onCreateFavoriteId, { userId: username })
-  );
+  const observable = client.graphql({
+    query: onCreateFavoriteId,
+    variables: { userId: username },
+  });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnCreateFavoriteIdSubscription>) => {
-        const favorite = msg.value.data?.onCreateFavorite;
+      next: (msg) => {
+        const favorite = msg.data?.onCreateFavorite;
         next(favorite);
       },
       error,
@@ -43,19 +45,20 @@ export const subscribeOnDelete = (
     error,
   }: {
     next: (
-      favorite: OnDeleteFavoriteIdSubscription['onDeleteFavorite']
+      favorite: OnDeleteFavoriteIdSubscription['onDeleteFavorite'],
     ) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: (err: any) => void;
-  }
+  },
 ) => {
-  const observable = API.graphql(
-    graphqlOperation(onDeleteFavoriteId, { userId: username })
-  );
+  const observable = client.graphql({
+    query: onDeleteFavoriteId,
+    variables: { userId: username },
+  });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnDeleteFavoriteIdSubscription>) => {
-        const favorite = msg.value.data?.onDeleteFavorite;
+      next: (msg) => {
+        const favorite = msg.data?.onDeleteFavorite;
         next(favorite);
       },
       error,

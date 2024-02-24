@@ -10,8 +10,9 @@ import {
   onDeleteNote,
   onUpdateNote,
 } from '@/graphql/subscriptions';
-import { SubscriptionResult } from '@/types';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient({ authMode: 'iam' });
 
 export const subscribeOnCreateNote = ({
   next,
@@ -21,11 +22,11 @@ export const subscribeOnCreateNote = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: (err: any) => void;
 }) => {
-  const observable = API.graphql(graphqlOperation(onCreateNote));
+  const observable = client.graphql({ query: onCreateNote });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnCreateNoteSubscription>) => {
-        const note = msg.value.data?.onCreateNote;
+      next: (msg) => {
+        const note = msg.data?.onCreateNote;
         next(note);
       },
       error,
@@ -41,11 +42,11 @@ export const subscribeOnUpdateNote = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: (err: any) => void;
 }) => {
-  const observable = API.graphql(graphqlOperation(onUpdateNote));
+  const observable = client.graphql({ query: onUpdateNote });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnUpdateNoteSubscription>) => {
-        const note = msg.value.data?.onUpdateNote;
+      next: (msg) => {
+        const note = msg.data?.onUpdateNote;
         next(note);
       },
       error,
@@ -61,11 +62,11 @@ export const subscribeOnDeleteNote = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: (err: any) => void;
 }) => {
-  const observable = API.graphql(graphqlOperation(onDeleteNote));
+  const observable = client.graphql({ query: onDeleteNote });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnDeleteNoteSubscription>) => {
-        const note = msg.value.data?.onDeleteNote;
+      next: (msg) => {
+        const note = msg.data?.onDeleteNote;
         next(note);
       },
       error,
@@ -82,15 +83,16 @@ export const subscribeOnCreateFavorite = (
     next: (favorite: OnCreateFavoriteSubscription['onCreateFavorite']) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: (err: any) => void;
-  }
+  },
 ) => {
-  const observable = API.graphql(
-    graphqlOperation(onCreateFavorite, { userId: username })
-  );
+  const observable = client.graphql({
+    query: onCreateFavorite,
+    variables: { userId: username },
+  });
   if ('subscribe' in observable) {
     return observable.subscribe({
-      next: (msg: SubscriptionResult<OnCreateFavoriteSubscription>) => {
-        const favorite = msg.value.data?.onCreateFavorite;
+      next: (msg) => {
+        const favorite = msg.data?.onCreateFavorite;
         next(favorite);
       },
       error,

@@ -7,7 +7,7 @@ import {
 } from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import {
@@ -16,13 +16,16 @@ import {
   subscribeOnUpdateNote,
 } from './subscriptions';
 
+const client = generateClient();
+
 const fetchFavorites = async ({ username }: { username: string }) => {
-  const { data } = (await API.graphql(
-    graphqlOperation(listFavoritesByUserId, {
+  const { data } = (await client.graphql({
+    query: listFavoritesByUserId,
+    variables: {
       userId: username,
       sortDirection: ModelSortDirection.DESC,
-    })
-  )) as GraphQLResult<ListFavoritesByUserIdQuery>;
+    },
+  })) as GraphQLResult<ListFavoritesByUserIdQuery>;
   return data?.favoritesByDate?.items
     .map((v) => v?.note)
     .filter(nonNullableFilter);
@@ -83,7 +86,7 @@ export const useFavoritesSubscriptions = ({
               return prev;
             }
             return [note, ...prev];
-          }
+          },
         );
       },
     });
@@ -101,7 +104,7 @@ export const useFavoritesSubscriptions = ({
               return [];
             }
             return prev.map((n) => (n.id === note.id ? note : n));
-          }
+          },
         );
       },
     });
@@ -119,7 +122,7 @@ export const useFavoritesSubscriptions = ({
               return [];
             }
             return prev.filter((n) => n.id !== note.id);
-          }
+          },
         );
       },
     });

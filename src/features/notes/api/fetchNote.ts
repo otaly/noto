@@ -2,13 +2,16 @@ import { GetNoteQuery } from '@/API';
 import { getNote } from '@/graphql/queries';
 import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useQuery } from 'react-query';
 
+const client = generateClient({ authMode: 'iam' });
+
 const fetchNote = async ({ id }: { id: string }) => {
-  const { data } = (await API.graphql(
-    graphqlOperation(getNote, { id })
-  )) as GraphQLResult<GetNoteQuery>;
+  const { data } = (await client.graphql({
+    query: getNote,
+    variables: { id },
+  })) as GraphQLResult<GetNoteQuery>;
   return data?.getNote;
 };
 

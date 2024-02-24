@@ -1,6 +1,5 @@
 import { ContentLayout, Header } from '@/components/Layout';
-import { AuthStatus } from '@/constants';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Box, Heading } from '@chakra-ui/react';
 import { useHomeNotes, useHomeNotesSubscriptions } from '../api/fetchHomeNotes';
 import { AltDisplay } from '../components/AltDisplay';
@@ -10,19 +9,14 @@ import { NoteCardsGrid } from '../components/NoteCardsGrid';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 export const Home = () => {
-  const { authStatus, user } = useAuthenticator((context) => [
-    context.authStatus,
-    context.user,
-  ]);
+  const { username } = useCurrentUser();
 
-  const { data, isLoading, status } = useHomeNotes();
-  // TODO: 未ログインでのsubscription
-  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
-  useHomeNotesSubscriptions({ config: { enabled: isSignedIn } });
+  const { data } = useHomeNotes();
+  useHomeNotesSubscriptions();
   const notes: NoteCardProps[] =
     data?.map((note) => ({
       ...note,
-      isMyNote: note.authorId === user?.username,
+      isMyNote: note.authorId === username,
       favoriteCount: note.favoriteCount ?? undefined,
     })) ?? [];
 

@@ -10,7 +10,7 @@ import { HtmlView } from '../components/HtmlView';
 export const Note = () => {
   const { id } = useParams();
 
-  const { data, isLoading, status } = useNote({
+  const { data } = useNote({
     id: id ?? '',
     config: { enabled: id != null },
   });

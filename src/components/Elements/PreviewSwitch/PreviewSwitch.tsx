@@ -23,7 +23,7 @@ export const PreviewSwitch = memo(
         }
         setIsPreview.toggle();
       },
-      [onChangeIsPreview, setIsPreview]
+      [onChangeIsPreview, setIsPreview],
     );
     return (
       <Center as="label" htmlFor="previewSwitch">
@@ -46,5 +46,5 @@ export const PreviewSwitch = memo(
         />
       </Center>
     );
-  }
+  },
 );

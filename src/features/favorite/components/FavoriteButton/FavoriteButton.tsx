@@ -4,8 +4,10 @@ import { useFavoriteIdsCtx } from '@/providers/favoriteIds';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Center, Circle } from '@chakra-ui/react';
 import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useCallback, useMemo } from 'react';
+
+const client = generateClient();
 
 export type FavoriteButtonProps = {
   noteId?: string;
@@ -21,18 +23,19 @@ export const FavoriteButton = ({
   const favoriteIds = useFavoriteIdsCtx();
   const isFavorite = useMemo(
     () => Boolean(noteId && favoriteIds.includes(noteId)),
-    [noteId, favoriteIds]
+    [noteId, favoriteIds],
   );
 
   const handleClick = useCallback(async () => {
     if (noteId == null) {
       return;
     }
-    (await API.graphql(
-      graphqlOperation(changeFavorite, {
+    (await client.graphql({
+      query: changeFavorite,
+      variables: {
         input: { noteId, isFavorite: !isFavorite },
-      })
-    )) as GraphQLResult<ChangeFavoriteMutation>;
+      },
+    })) as GraphQLResult<ChangeFavoriteMutation>;
   }, [isFavorite, noteId]);
 
   const circleProps = isBigButton ? { p: 3, bg: 'white', shadow: 'base' } : {};

@@ -19,7 +19,7 @@ export const MDEditor = ({ value, onChange }: MDEditorProps) => {
       toolbar: false,
       autosave: undefined,
     }),
-    []
+    [],
   );
 
   return (

@@ -18,7 +18,7 @@ type User
 }
 
 type Note
-  @model(queries: { get: "getNote" }, subscriptions: { level: public })
+  @model(queries: { get: "getNote" })
   @auth(
     rules: [
       {
@@ -119,20 +119,4 @@ input ChangeFavoriteInput {
   noteId: ID!
   isFavorite: Boolean!
 }
-
-type Subscription {
-  # Noteに@authで複数ルール設定しているとsubscriptions: { level: public }でSubscriptionが自動生成されない。
-  # 参考: https://github.com/aws-amplify/amplify-cli/issues/2715#issuecomment-553550734
-  onCreateNote: Note
-    @aws_subscribe(mutations: ["createNote"])
-    @aws_iam
-    @aws_cognito_user_pools
-  onUpdateNote: Note
-    @aws_subscribe(mutations: ["updateNote"])
-    @aws_iam
-    @aws_cognito_user_pools
-  onDeleteNote: Note
-    @aws_subscribe(mutations: ["deleteNote"])
-    @aws_iam
-    @aws_cognito_user_pools
-}
+    

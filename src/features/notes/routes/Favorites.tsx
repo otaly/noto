@@ -1,6 +1,5 @@
 import { ContentLayout, Header } from '@/components/Layout';
-import { AuthStatus } from '@/constants';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Box } from '@chakra-ui/react';
 import { useFavorites, useFavoritesSubscriptions } from '../api/fetchFavorites';
 import { AltDisplay } from '../components/AltDisplay';
@@ -9,14 +8,9 @@ import { NoteCards } from '../components/NoteCards';
 import { NoteCardsLayout } from '../components/NoteCardsLayout';
 
 export const Favorites = () => {
-  const { user, authStatus } = useAuthenticator((context) => [
-    context.user,
-    context.authStatus,
-  ]);
-  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
-  const username = user?.username ?? '';
+  const { isSignedIn, username } = useCurrentUser();
 
-  const { data, isLoading, status } = useFavorites({
+  const { data } = useFavorites({
     username,
     config: { enabled: isSignedIn },
   });
@@ -25,7 +19,7 @@ export const Favorites = () => {
   const notes: NoteCardProps[] =
     data?.map((note) => ({
       ...note,
-      isMyNote: note.authorId === user?.username,
+      isMyNote: note.authorId === username,
       favoriteCount: note.favoriteCount ?? undefined,
     })) ?? [];
 

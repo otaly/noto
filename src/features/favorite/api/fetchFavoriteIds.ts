@@ -7,17 +7,20 @@ import {
 } from '@/lib/react-query';
 import { nonNullableFilter } from '@/utils/filter';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { subscribeOnCreate, subscribeOnDelete } from './subscriptions';
 
+const client = generateClient();
+
 const fetchFavoriteIds = async ({ username }: { username: string }) => {
-  const { data } = (await API.graphql(
-    graphqlOperation(listFavoriteIds, {
+  const { data } = (await client.graphql({
+    query: listFavoriteIds,
+    variables: {
       userId: username,
-    })
-  )) as GraphQLResult<ListFavoriteIdsQuery>;
+    },
+  })) as GraphQLResult<ListFavoriteIdsQuery>;
   return data?.listFavorites?.items
     .filter(nonNullableFilter)
     .map(({ noteId }) => noteId);
@@ -72,7 +75,7 @@ export const useFavoriteIdsSubscriptions = ({
               return [favorite.noteId];
             }
             return [favorite.noteId, ...prev];
-          }
+          },
         );
       },
     });
@@ -90,7 +93,7 @@ export const useFavoriteIdsSubscriptions = ({
               return [];
             }
             return prev.filter((id) => id !== favorite.noteId);
-          }
+          },
         );
       },
     });

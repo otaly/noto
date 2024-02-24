@@ -10,4 +10,4 @@ COPY --from=base /app/node_modules /app/node_modules
 RUN npm run build
 
 FROM nginx:alpine AS runner
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html

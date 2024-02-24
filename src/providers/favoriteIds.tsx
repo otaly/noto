@@ -1,9 +1,8 @@
-import { AuthStatus } from '@/constants';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import {
   useFavoriteIds,
   useFavoriteIdsSubscriptions,
 } from '@/features/favorite/api/fetchFavoriteIds';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { createContext, useContext, useMemo } from 'react';
 
 type FavoriteIdsProviderProps = {
@@ -13,12 +12,7 @@ type FavoriteIdsProviderProps = {
 const favoriteIdsContext = createContext<string[]>([]);
 
 export const FavoriteIdsProvider = ({ children }: FavoriteIdsProviderProps) => {
-  const { user, authStatus } = useAuthenticator((context) => [
-    context.user,
-    context.authStatus,
-  ]);
-  const isSignedIn = authStatus === AuthStatus.AUTHENTICATED;
-  const username = user?.username ?? '';
+  const { isSignedIn, username } = useCurrentUser();
 
   // TODO: 一旦suspense: falseにしているが、要検討。
   const { data } = useFavoriteIds({

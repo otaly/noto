@@ -261,6 +261,73 @@ export type ModelIDKeyConditionInput = {
   beginsWith?: string | null,
 };
 
+export type ModelSubscriptionUserFilterInput = {
+  name?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+};
+
+export type ModelSubscriptionStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionNoteFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  markdown?: ModelSubscriptionStringInput | null,
+  html?: ModelSubscriptionStringInput | null,
+  favoriteCount?: ModelSubscriptionIntInput | null,
+  type?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionNoteFilterInput | null > | null,
+  or?: Array< ModelSubscriptionNoteFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionFavoriteFilterInput = {
+  noteId?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
+};
+
 export type ListFavoriteIdsQueryVariables = {
   userId?: string | null,
 };
@@ -851,6 +918,56 @@ export type FavoritesByNoteIdQuery = {
   } | null,
 };
 
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  id?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateNoteSubscriptionVariables = {
+  filter?: ModelSubscriptionNoteFilterInput | null,
+  authorId?: string | null,
+};
+
 export type OnCreateNoteSubscription = {
   onCreateNote?:  {
     __typename: "Note",
@@ -871,6 +988,11 @@ export type OnCreateNoteSubscription = {
     updatedAt: string,
     createdAt: string,
   } | null,
+};
+
+export type OnUpdateNoteSubscriptionVariables = {
+  filter?: ModelSubscriptionNoteFilterInput | null,
+  authorId?: string | null,
 };
 
 export type OnUpdateNoteSubscription = {
@@ -895,6 +1017,11 @@ export type OnUpdateNoteSubscription = {
   } | null,
 };
 
+export type OnDeleteNoteSubscriptionVariables = {
+  filter?: ModelSubscriptionNoteFilterInput | null,
+  authorId?: string | null,
+};
+
 export type OnDeleteNoteSubscription = {
   onDeleteNote?:  {
     __typename: "Note",
@@ -917,49 +1044,8 @@ export type OnDeleteNoteSubscription = {
   } | null,
 };
 
-export type OnCreateUserSubscriptionVariables = {
-  id?: string | null,
-};
-
-export type OnCreateUserSubscription = {
-  onCreateUser?:  {
-    __typename: "User",
-    id: string,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateUserSubscriptionVariables = {
-  id?: string | null,
-};
-
-export type OnUpdateUserSubscription = {
-  onUpdateUser?:  {
-    __typename: "User",
-    id: string,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteUserSubscriptionVariables = {
-  id?: string | null,
-};
-
-export type OnDeleteUserSubscription = {
-  onDeleteUser?:  {
-    __typename: "User",
-    id: string,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type OnCreateFavoriteSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteFilterInput | null,
   userId?: string | null,
 };
 
@@ -992,6 +1078,7 @@ export type OnCreateFavoriteSubscription = {
 };
 
 export type OnDeleteFavoriteSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteFilterInput | null,
   userId?: string | null,
 };
 

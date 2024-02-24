@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import '@aws-amplify/ui-react/styles.css';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { Suspense } from 'react';

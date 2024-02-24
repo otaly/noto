@@ -20,6 +20,86 @@
     }
   },
   "Resources": {
+    "LambdaLayerVersion44fff203": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": {
+          "Ref": "runtimes"
+        },
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        },
+        "Description": {
+          "Ref": "description"
+        },
+        "LayerName": {
+          "Fn::Sub": [
+            "notoGqlLayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate44fff203": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": {
+          "Ref": "LambdaLayerVersion44fff203"
+        },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersioncd6c91d2": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/notoGqlLayer-LambdaLayerVersioncd6c91d2-build.zip"
+        },
+        "Description": "Updated layer version 2024-02-23T17:06:47.535Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "notoGqlLayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivatecd6c91d2": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:669664057456:layer:notoGqlLayer-production:3",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
     "LambdaLayerVersione8ee5b36": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
@@ -98,7 +178,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersione8ee5b36"
+        "Ref": "LambdaLayerVersion44fff203"
       }
     }
   }

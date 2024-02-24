@@ -84,4 +84,4 @@
     "permissions": [],
     "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"notob173597cPostConfirmation\"\n  }\n]"
   }
-}
+}    

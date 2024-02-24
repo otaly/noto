@@ -1,175 +1,273 @@
 {
-  "auth": {
-    "notob173597c": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "notob173597cPostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ],
-      "customAuth": false,
-      "frontendAuthConfig": {
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyMinLength": 8,
-          "passwordPolicyCharacters": []
-        },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      }
-    }
-  },
   "api": {
     "notoGql": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "notob173597c",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "notob173597c"
         }
       ],
       "output": {
         "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
               "userPoolId": "authnotob173597c"
             }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ]
+          }
         }
-      }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "notob173597c": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "notob173597cPostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
     }
   },
   "function": {
-    "notob173597cPostConfirmation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "notoGqlLayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "notoGql",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
-    "favorite": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "notoGqlLayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "notoGql",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
     "convertMD": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "note": {
+    "favorite": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
       "dependsOn": [
         {
-          "category": "function",
-          "resourceName": "notoGqlLayer",
           "attributes": [
             "Arn"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "notoGqlLayer"
         },
         {
-          "category": "api",
-          "resourceName": "notoGql",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "notoGql"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "note": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "notoGqlLayer"
         },
         {
-          "category": "function",
-          "resourceName": "convertMD",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "notoGql"
+        },
+        {
           "attributes": [
             "Name"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "convertMD"
         }
-      ]
-    },
-    "notoGqlLayer": {
+      ],
       "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
+      "service": "Lambda"
     },
     "noteTrigger": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "notoGql",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "notoGql"
         },
         {
-          "category": "function",
-          "resourceName": "notoGqlLayer",
           "attributes": [
             "Arn"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "notoGqlLayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "notoGqlLayer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "notob173597cPostConfirmation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "notoGqlLayer"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "notoGql"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_convertMD_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "convertMD"
+        }
+      ]
+    },
+    "AMPLIFY_function_convertMD_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "convertMD"
+        }
+      ]
+    },
+    "AMPLIFY_function_favorite_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "favorite"
+        }
+      ]
+    },
+    "AMPLIFY_function_favorite_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "favorite"
+        }
+      ]
+    },
+    "AMPLIFY_function_noteTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "noteTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_noteTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "noteTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_note_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "note"
+        }
+      ]
+    },
+    "AMPLIFY_function_note_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "note"
+        }
+      ]
+    },
+    "AMPLIFY_function_notoGqlLayer_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notoGqlLayer"
+        }
+      ]
+    },
+    "AMPLIFY_function_notoGqlLayer_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notoGqlLayer"
+        }
+      ]
+    },
+    "AMPLIFY_function_notob173597cPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notob173597cPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_notob173597cPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notob173597cPostConfirmation"
         }
       ]
     }

@@ -7,13 +7,15 @@ import { ContentLayout, Header } from '@/components/Layout';
 import { previewMD, updateNoteForClient } from '@/graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
-import { API, graphqlOperation } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNote } from '../api/fetchNote';
 import { HtmlView } from '../components/HtmlView';
 import { MDEditor } from '../components/MDEditor';
 import { TitleTextarea } from '../components/TitleTextarea';
+
+const client = generateClient();
 
 export const Editor = () => {
   const { id } = useParams();
@@ -37,24 +39,25 @@ export const Editor = () => {
   const handleTitleChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) =>
       setTitle(event.target.value),
-    []
+    [],
   );
   const handleMarkdownChange = useCallback(
     (value: string) => setMarkdown(value),
-    []
+    [],
   );
 
   const handleChangeIsPreview = useCallback(
     async (isPreview: boolean) => {
       if (isPreview) {
-        const previewResult = (await API.graphql(
-          graphqlOperation(previewMD, { markdown })
-        )) as GraphQLResult<PreviewMDMutation>;
+        const previewResult = (await client.graphql({
+          query: previewMD,
+          variables: { markdown },
+        })) as GraphQLResult<PreviewMDMutation>;
         setPreviewHtml(previewResult.data?.previewMD ?? '');
       }
       setIsPreviewMode.toggle();
     },
-    [markdown, setIsPreviewMode]
+    [markdown, setIsPreviewMode],
   );
   const handleClickUpdate = useCallback(async () => {
     if (id == null) {
@@ -62,9 +65,10 @@ export const Editor = () => {
     }
     setIsLoading.on();
     const update: UpdateNoteForClientInput = { id, title, markdown };
-    (await API.graphql(
-      graphqlOperation(updateNoteForClient, { input: update })
-    )) as GraphQLResult<UpdateNoteForClientMutation>;
+    (await client.graphql({
+      query: updateNoteForClient,
+      variables: { input: update },
+    })) as GraphQLResult<UpdateNoteForClientMutation>;
     setIsLoading.off();
   }, [id, setIsLoading, title, markdown]);
 

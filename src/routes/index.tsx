@@ -6,7 +6,7 @@ import { protectedRoutes } from './protected';
 import { publicRoutes } from './public';
 
 export const AppRoutes = () => {
-  const { route } = useAuthenticator((context) => [context.route]);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
 
   const idleRoutes: RouteObject[] = [
     {
@@ -20,8 +20,8 @@ export const AppRoutes = () => {
   ];
 
   let routes: RouteObject[] = [];
-  switch (route) {
-    case 'idle':
+  switch (authStatus) {
+    case 'configuring':
       routes = idleRoutes;
       break;
     case 'authenticated':
@@ -33,6 +33,5 @@ export const AppRoutes = () => {
   }
 
   const element = useRoutes([...routes, ...commonRoutes]);
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{element}</>;
 };

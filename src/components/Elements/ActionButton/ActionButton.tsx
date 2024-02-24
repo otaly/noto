@@ -30,7 +30,7 @@ const ActionButtonRaw = forwardRef<ActionButtonProps, 'button'>(
       </Center>
       <Box>{props.children}</Box>
     </Center>
-  )
+  ),
 );
 
 export const ActionButton = chakra(ActionButtonRaw);
