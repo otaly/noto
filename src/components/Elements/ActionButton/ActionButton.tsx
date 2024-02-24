@@ -1,20 +1,16 @@
 import { Box, Center, chakra, forwardRef } from '@chakra-ui/react';
-import clsx from 'clsx';
 import React from 'react';
 
-export type ActionButtonProps = React.ButtonHTMLAttributes<
-  HTMLDivElement & HTMLButtonElement
-> & {
+export type ActionButtonProps = React.ComponentPropsWithRef<'button'> & {
   icon?: React.ReactElement;
 };
 
 const ActionButtonRaw = forwardRef<ActionButtonProps, 'button'>(
-  ({ type = 'button', className = '', onClick, icon, ...props }, ref) => (
+  ({ icon, children, ...props }, ref) => (
     <Center
       as="button"
       ref={ref}
-      type={type}
-      className={clsx(className)}
+      type="button"
       py={4}
       bg="accent.500"
       color="white"
@@ -23,12 +19,12 @@ const ActionButtonRaw = forwardRef<ActionButtonProps, 'button'>(
       pos="relative"
       rounded="full"
       _hover={{ bg: 'accent.600', color: 'whiteAlpha.900' }}
-      onClick={onClick}
+      {...props}
     >
       <Center pos="absolute" left="14px">
         {icon}
       </Center>
-      <Box>{props.children}</Box>
+      <Box>{children}</Box>
     </Center>
   ),
 );
