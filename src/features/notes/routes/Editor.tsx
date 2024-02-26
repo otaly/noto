@@ -59,7 +59,7 @@ export const Editor = () => {
     },
     [markdown, setIsPreviewMode],
   );
-  const handleClickUpdate = useCallback(async () => {
+  const handleClickSave = useCallback(async () => {
     if (id == null) {
       return;
     }
@@ -78,7 +78,7 @@ export const Editor = () => {
         <Header
           type="editor"
           isLoading={isLoading}
-          onClickUpdate={handleClickUpdate}
+          onClickSave={handleClickSave}
           onChangeIsPreview={handleChangeIsPreview}
         />
       }
