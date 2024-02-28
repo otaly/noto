@@ -1,15 +1,12 @@
-import {
-  PreviewMDMutation,
-  UpdateNoteForClientInput,
-  UpdateNoteForClientMutation,
-} from '@/API';
+import { UpdateNoteForClientInput, UpdateNoteForClientMutation } from '@/API';
 import { ContentLayout, Header } from '@/components/Layout';
-import { previewMD, updateNoteForClient } from '@/graphql/mutations';
+import { updateNoteForClient } from '@/graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { Box, Container, useBoolean } from '@chakra-ui/react';
 import { generateClient } from 'aws-amplify/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useMDPreview } from '../api/fetchMDPreview';
 import { useNote } from '../api/fetchNote';
 import { HtmlView } from '../components/HtmlView';
 import { MDEditor } from '../components/MDEditor';
@@ -21,15 +18,20 @@ export const Editor = () => {
   const { id } = useParams();
   const [title, setTitle] = useState('');
   const [markdown, setMarkdown] = useState('');
-  const [previewHtml, setPreviewHtml] = useState('');
   const [isLoading, setIsLoading] = useBoolean();
   const [isPreviewMode, setIsPreviewMode] = useBoolean(false);
 
   const { data } = useNote({
     id: id ?? '',
-    config: { enabled: id != null },
+    config: { enabled: id != null, refetchOnReconnect: false },
   });
   const note = data;
+
+  const { data: previewData } = useMDPreview({
+    noteId: id ?? '',
+    markdown: markdown || (note?.markdown ?? ''),
+    config: { enabled: id != null && isPreviewMode },
+  });
 
   useEffect(() => {
     setTitle(note?.title ?? '');
@@ -46,19 +48,10 @@ export const Editor = () => {
     [],
   );
 
-  const handleChangeIsPreview = useCallback(
-    async (isPreview: boolean) => {
-      if (isPreview) {
-        const previewResult = (await client.graphql({
-          query: previewMD,
-          variables: { markdown },
-        })) as GraphQLResult<PreviewMDMutation>;
-        setPreviewHtml(previewResult.data?.previewMD ?? '');
-      }
-      setIsPreviewMode.toggle();
-    },
-    [markdown, setIsPreviewMode],
-  );
+  const handleChangeIsPreview = useCallback(() => {
+    setIsPreviewMode.toggle();
+  }, [setIsPreviewMode]);
+
   const handleClickSave = useCallback(async () => {
     if (id == null) {
       return;
@@ -96,7 +89,7 @@ export const Editor = () => {
         />
         <Box as="section" mb={6}>
           {isPreviewMode ? (
-            <HtmlView html={previewHtml} />
+            <HtmlView html={previewData?.previewMD} />
           ) : (
             <MDEditor value={markdown} onChange={handleMarkdownChange} />
           )}
