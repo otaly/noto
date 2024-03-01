@@ -29,7 +29,11 @@ export const LoggedInHeaderContents = () => {
     <Flex px={6} py={2} align="center" justify="flex-end">
       <Menu>
         <MenuButton>
-          <Avatar name={name} w={12} h={12} />
+          <Avatar
+            name={name}
+            w={{ base: 10, sm: 12 }}
+            h={{ base: 10, sm: 12 }}
+          />
         </MenuButton>
         <MenuList>
           <MenuItem onClick={handleClickLogOut}>ログアウト</MenuItem>
