@@ -69,9 +69,6 @@ const NoteCardMenu = ({ title, id }: NoteCardMenuProps) => {
         color="blackAlpha.300"
         isRound
         variant="unstyled"
-        pos="absolute"
-        top={-1}
-        right={-4}
         _groupHover={{ color: 'blackAlpha.800' }}
       />
       <MenuList>
@@ -132,7 +129,7 @@ export const NoteCard = ({
           </LinkOverlay>
         </Heading>
         {isMyNote && (
-          <Box pl={3} pos="relative">
+          <Box pl={3} mt={-1} mr={-4}>
             <NoteCardMenu id={id} title={title} />
           </Box>
         )}
