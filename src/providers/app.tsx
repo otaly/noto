@@ -30,13 +30,14 @@ const theme = extendTheme({
   },
   textStyles: {
     h1: {
-      fontSize: '2rem',
+      fontSize: { base: '1.5rem', sm: '2rem' },
       fontWeight: 'bold',
       lineHeight: 'short',
     },
   },
   colors: {
     base: {
+      300: '#fcfcfc',
       500: '#ececec',
     },
     primary: {

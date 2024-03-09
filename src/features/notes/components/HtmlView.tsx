@@ -9,12 +9,12 @@ export const HtmlView = ({ html = '' }: HtmlViewProps) => (
   <Box
     dangerouslySetInnerHTML={{ __html: html }}
     className="znc"
-    px={10}
+    px={{ base: 0, sm: 10 }}
     py={8}
     color="blackAlpha.800"
     lineHeight="taller"
-    bg="white"
+    bg={{ base: 'none', sm: 'white' }}
     borderRadius="2xl"
-    shadow="base"
+    shadow={{ base: 'none', sm: 'base' }}
   />
 );
