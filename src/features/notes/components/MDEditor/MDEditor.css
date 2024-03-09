@@ -1,9 +1,16 @@
 .EasyMDEContainer .CodeMirror {
   border: none;
   padding: 0;
+  background: none;
 }
 
 .EasyMDEContainer .CodeMirror-placeholder {
   opacity: 1;
   color: var(--chakra-colors-gray-400) !important;
+}
+
+/* 若干左に寄るが、プレビュー表示と改行位置のズレがなくなる */
+.CodeMirror pre.CodeMirror-line,
+.CodeMirror pre.CodeMirror-line-like {
+  padding: 0;
 }

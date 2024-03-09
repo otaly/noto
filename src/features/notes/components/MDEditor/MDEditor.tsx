@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/react';
 import 'easymde/dist/easymde.min.css';
 import { useMemo } from 'react';
 import { SimpleMdeReact, SimpleMDEReactProps } from 'react-simplemde-editor';
+import { NoteViewBox } from '../NoteViewBox';
 import './MDEditor.css';
 
 export type MDEditorProps = {
@@ -23,16 +23,8 @@ export const MDEditor = ({ value, onChange }: MDEditorProps) => {
   );
 
   return (
-    <Box
-      px={10}
-      py={8}
-      color="blackAlpha.800"
-      lineHeight="taller"
-      bg="white"
-      borderRadius="2xl"
-      shadow="base"
-    >
+    <NoteViewBox>
       <SimpleMdeReact options={options} value={value} onChange={onChange} />
-    </Box>
+    </NoteViewBox>
   );
 };

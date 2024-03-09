@@ -67,6 +67,7 @@ export const Editor = () => {
 
   return (
     <ContentLayout
+      bg={{ base: 'base.300', sm: 'base.500' }}
       header={
         <Header
           type="editor"
@@ -78,7 +79,7 @@ export const Editor = () => {
     >
       <Container
         as="article"
-        px="min(15%, 12.25rem)"
+        px={{ base: 8, sm: 'min(15%, 12.25rem)' }}
         py={8}
         maxW="container.xl"
       >
