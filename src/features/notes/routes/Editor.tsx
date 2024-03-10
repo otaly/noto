@@ -30,7 +30,7 @@ export const Editor = () => {
   const { data: previewData } = useMDPreview({
     noteId: id ?? '',
     markdown: markdown || (note?.markdown ?? ''),
-    config: { enabled: id != null && isPreviewMode },
+    config: { enabled: id != null && isPreviewMode, staleTime: 5 * 60 * 1000 },
   });
 
   useEffect(() => {

@@ -22,7 +22,11 @@ type UseMDPreviewOptions = {
   config?: QueryConfig<QueryFnType>;
 };
 
-const getQueryKey = (noteId: string) => ['markdown-preview', noteId];
+const getQueryKey = (noteId: string, markdown: string) => [
+  'markdown-preview',
+  noteId,
+  { markdown },
+];
 
 export const useMDPreview = ({
   noteId,
@@ -31,6 +35,6 @@ export const useMDPreview = ({
 }: UseMDPreviewOptions) =>
   useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: getQueryKey(noteId),
+    queryKey: getQueryKey(noteId, markdown),
     queryFn: () => fetchMDPreview({ markdown }),
   });
