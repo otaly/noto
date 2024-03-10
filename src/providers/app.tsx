@@ -4,6 +4,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import React from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { AlertDialogProvider } from './alertDialog';
 import { FavoriteIdsProvider } from './favoriteIds';
 
 type AppProviderProps = {
@@ -61,7 +62,9 @@ export const AppProvider = ({ children }: AppProviderProps) => (
     <QueryClientProvider client={queryClient}>
       <Authenticator.Provider>
         <FavoriteIdsProvider>
-          <BrowserRouter>{children}</BrowserRouter>
+          <AlertDialogProvider>
+            <BrowserRouter>{children}</BrowserRouter>
+          </AlertDialogProvider>
         </FavoriteIdsProvider>
       </Authenticator.Provider>
     </QueryClientProvider>

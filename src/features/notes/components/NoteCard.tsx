@@ -2,6 +2,7 @@ import { DeleteNoteInput, DeleteNoteMutation } from '@/API';
 import { ALT_TITLE } from '@/constants';
 import { FavoriteButton } from '@/features/favorite/components/FavoriteButton';
 import { deleteNote } from '@/graphql/mutations';
+import { useAlertDialog } from '@/providers/alertDialog';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import {
@@ -36,10 +37,15 @@ export type NoteCardMenuProps = {
 
 const NoteCardMenu = ({ title, id }: NoteCardMenuProps) => {
   const toast = useToast();
+  const alert = useAlertDialog();
 
   const handleClickDelete = useCallback(async () => {
-    // 暫定でconfirm
-    if (!confirm(`'${title || ALT_TITLE}'を削除してよろしいですか？`)) {
+    if (
+      !(await alert({
+        text: `"${title || ALT_TITLE}"を削除してよろしいですか？`,
+        okButtonText: '削除',
+      }))
+    ) {
       return;
     }
 
@@ -57,7 +63,7 @@ const NoteCardMenu = ({ title, id }: NoteCardMenuProps) => {
       position: 'top',
       duration: 2000,
     });
-  }, [id, title, toast]);
+  }, [alert, id, title, toast]);
 
   return (
     <Menu>
