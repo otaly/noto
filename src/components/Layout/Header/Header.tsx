@@ -6,6 +6,7 @@ import {
   ChakraProps,
   Flex,
   Icon,
+  Show,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Menu } from '@mui/icons-material';
@@ -69,16 +70,17 @@ export const Header = (props: HeaderProps = { type: 'normal' }) => {
         top={0}
         zIndex={100}
       >
-        <Center
-          as="button"
-          display={{ base: 'flex', sm: 'none' }}
-          p={2}
-          backgroundColor="#061f35"
-          ref={mobileNavOpenButtonRef}
-          onClick={onOpen}
-        >
-          <Icon as={Menu} fill="whiteAlpha.900" fontSize={40} />
-        </Center>
+        <Show below="sm">
+          <Center
+            as="button"
+            p={2}
+            backgroundColor="#061f35"
+            ref={mobileNavOpenButtonRef}
+            onClick={onOpen}
+          >
+            <Icon as={Menu} fill="whiteAlpha.900" fontSize={40} />
+          </Center>
+        </Show>
         <Box flex={1} bg="white" {...headerStyles}>
           {contents}
         </Box>
